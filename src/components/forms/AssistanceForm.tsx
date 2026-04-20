@@ -9,6 +9,7 @@ const authService = new AuthService();
 export default function AssistanceForm() {
     const [services, setServices] = useState<any[]>([]);
     const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
 
     const [form, setForm] = useState({
         email: "",
@@ -30,13 +31,11 @@ export default function AssistanceForm() {
             const { data } = await supabase.from("services").select("*");
             setServices(data || []);
         }
-
         void fetchServices();
     }, []);
 
     function handleChange(e: any) {
         const { name, value, type, checked, files } = e.target;
-
         if (type === "file") {
             setForm({
                 ...form,
@@ -61,169 +60,221 @@ export default function AssistanceForm() {
 
     async function handleRegister() {
         if (loading) return;
-        setLoading(true);
+        setError("");
 
-        try {
-            await authService.registerAssistance(form);
-            alert("Assistência cadastrada!");
-        } catch (err: any) {
-            alert(err.message);
+        if (!form.email || !form.password || !form.businessName) {
+            setError("E-mail, senha e nome da assistência são obrigatórios.");
+            return;
         }
 
-        setLoading(false);
+        setLoading(true);
+        try {
+            await authService.registerAssistance(form);
+            alert("Cadastro de assistência realizado com sucesso!");
+        } catch (err: any) {
+            setError(err.message || "Erro ao cadastrar assistência.");
+        } finally {
+            setLoading(false);
+        }
     }
 
     return (
-        <div className="space-y-8 w-full max-w-2xl mx-auto">
+        <div className="space-y-8 w-full max-w-2xl mx-auto pb-12">
+            {error && (
+                <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl text-red-600 dark:text-red-400 text-sm animate-shake">
+                    {error}
+                </div>
+            )}
+
             <div className="grid md:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Nome da Empresa</label>
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Nome da Assistência</label>
                         <input
                             name="businessName"
-                            placeholder="Sua Assistência"
+                            placeholder="Ex: Tech Nexus Solutions"
                             onChange={handleChange}
-                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none"
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none"
                         />
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Email Profissional</label>
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">E-mail Profissional</label>
                         <input
                             name="email"
                             type="email"
                             placeholder="contato@empresa.com"
                             onChange={handleChange}
-                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none"
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none"
                         />
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Senha</label>
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Senha</label>
                         <input
                             name="password"
                             type="password"
                             placeholder="••••••••"
                             onChange={handleChange}
-                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none"
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none"
                         />
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">CNPJ (Opcional)</label>
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">CNPJ (Opcional)</label>
                         <input
                             name="cnpj"
                             placeholder="00.000.000/0000-00"
                             onChange={handleChange}
-                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none"
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none"
                         />
                     </div>
                 </div>
 
                 <div className="space-y-4">
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Endereço da Loja/Oficina</label>
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Endereço da Loja/Oficina</label>
                         <input
                             name="address"
                             placeholder="Rua, número, bairro"
                             onChange={handleChange}
-                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none"
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none"
                         />
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Anos de Experiência</label>
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Anos de Experiência</label>
                         <input
                             name="experience"
                             type="number"
-                            placeholder="Ex: 5"
+                            placeholder="0"
                             onChange={handleChange}
-                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none"
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none"
                         />
                     </div>
 
-                    <div>
-                        <label className="block text-sm font-medium text-slate-700 dark:text-slate-300 mb-1.5">Descrição dos Serviços</label>
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Descrição dos Serviços</label>
                         <textarea
                             name="description"
-                            placeholder="Conte um pouco sobre seu trabalho..."
+                            placeholder="Fale sobre suas especialidades e diferencial..."
                             onChange={handleChange}
-                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none h-32 resize-none"
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none h-32 resize-none"
                         />
                     </div>
                 </div>
             </div>
 
+            {/* Junior Section */}
+            <div className={`p-5 rounded-2xl border transition-all flex items-center space-x-4 ${form.isJunior ? 'bg-blue-600 border-blue-400 shadow-lg shadow-blue-900/20' : 'bg-blue-50 dark:bg-blue-900/10 border-blue-100 dark:border-blue-800'}`}>
+                <div className="relative flex items-center justify-center">
+                    <input
+                        type="checkbox"
+                        name="isJunior"
+                        checked={form.isJunior}
+                        onChange={handleChange}
+                        className="w-6 h-6 rounded-lg border-2 border-blue-400 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                    />
+                </div>
+                <div className="flex-1">
+                    <label className={`block font-bold text-sm ${form.isJunior ? 'text-white' : 'text-blue-700 dark:text-blue-400'}`}>
+                        Sou Assistente Júnior (Estudante/Iniciante)
+                    </label>
+                    <p className={`text-xs ${form.isJunior ? 'text-blue-100' : 'text-blue-600/80 dark:text-blue-500/60'}`}>
+                        Se você tem curso de hardware ou manutenção e está começando, marque esta opção para suporte especializado.
+                    </p>
+                </div>
+                {form.isJunior && <span className="text-2xl animate-bounce">🚀</span>}
+            </div>
+
             <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-4">
-                <h3 className="font-semibold text-slate-900 dark:text-white">Especialidades</h3>
+                <h3 className="font-bold text-slate-900 dark:text-white flex items-center space-x-2">
+                    <span>🛠️</span>
+                    <span>Especialidades Técnicas</span>
+                </h3>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                     {services.map((s: any) => (
-                        <label key={s.id} className="flex items-center space-x-3 p-3 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 cursor-pointer hover:border-emerald-500 transition-all">
+                        <label key={s.id} className={`flex items-center space-x-3 p-3 rounded-xl border cursor-pointer transition-all ${form.services.includes(s.id) ? 'bg-blue-500 border-blue-400 text-white shadow-md' : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-blue-500'}`}>
                             <input
                                 type="checkbox"
+                                checked={form.services.includes(s.id)}
                                 onChange={() => toggleService(s.id)}
-                                className="w-5 h-5 rounded border-slate-300 text-emerald-600 focus:ring-emerald-500"
+                                className="hidden"
                             />
-                            <span className="text-sm text-slate-700 dark:text-slate-300">{s.name}</span>
+                            <span className="text-sm font-medium">{s.name}</span>
                         </label>
                     ))}
                 </div>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-4">
+            <div className="grid md:grid-cols-3 gap-6">
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">Logo</label>
-                    <div className="relative group">
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Logo</label>
+                    <div className="p-4 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl hover:border-blue-500 transition-colors text-center cursor-pointer group">
                         <input
                             type="file"
                             name="logo"
                             onChange={(e: any) => setForm({ ...form, logo: e.target.files[0] })}
-                            className="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100"
+                            className="hidden"
+                            id="logo-upload"
                         />
+                        <label htmlFor="logo-upload" className="cursor-pointer">
+                            <span className="text-2xl block mb-1 group-hover:scale-110 transition-transform">🖼️</span>
+                            <span className="text-xs text-slate-500 group-hover:text-blue-500">Upload Logo</span>
+                        </label>
                     </div>
                 </div>
 
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">Fotos do Espaço</label>
-                    <input
-                        type="file"
-                        name="workspacePhotos"
-                        multiple
-                        onChange={handleChange}
-                        className="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100"
-                    />
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Espaço Físico</label>
+                    <div className="p-4 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl hover:border-blue-500 transition-colors text-center cursor-pointer group">
+                        <input
+                            type="file"
+                            name="workspacePhotos"
+                            multiple
+                            onChange={handleChange}
+                            className="hidden"
+                            id="workspace-upload"
+                        />
+                        <label htmlFor="workspace-upload" className="cursor-pointer">
+                            <span className="text-2xl block mb-1 group-hover:scale-110 transition-transform">📸</span>
+                            <span className="text-xs text-slate-500 group-hover:text-blue-500">Fotos da Oficina</span>
+                        </label>
+                    </div>
                 </div>
 
                 <div className="space-y-2">
-                    <label className="block text-sm font-medium text-slate-700 dark:text-slate-300">Certificados</label>
-                    <input
-                        type="file"
-                        name="certificates"
-                        multiple
-                        onChange={handleChange}
-                        className="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100"
-                    />
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Certificações</label>
+                    <div className="p-4 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl hover:border-blue-500 transition-colors text-center cursor-pointer group">
+                        <input
+                            type="file"
+                            name="certificates"
+                            multiple
+                            onChange={handleChange}
+                            className="hidden"
+                            id="cert-upload"
+                        />
+                        <label htmlFor="cert-upload" className="cursor-pointer">
+                            <span className="text-2xl block mb-1 group-hover:scale-110 transition-transform">📜</span>
+                            <span className="text-xs text-slate-500 group-hover:text-blue-500">Certificados</span>
+                        </label>
+                    </div>
                 </div>
-            </div>
-
-            <div className="flex items-center space-x-3 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-xl border border-blue-100 dark:border-blue-800">
-                <input
-                    type="checkbox"
-                    name="isJunior"
-                    onChange={handleChange}
-                    className="w-5 h-5 rounded border-slate-300 text-blue-600 focus:ring-blue-500"
-                />
-                <label className="text-sm text-blue-700 dark:text-blue-300 font-medium">
-                    Sou um assistente júnior (focado em aprendizado e coletas)
-                </label>
             </div>
 
             <button
                 onClick={handleRegister}
                 disabled={loading}
-                className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all shadow-lg shadow-emerald-900/20 active:scale-[0.98]"
+                className="w-full py-4 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-extrabold rounded-xl transition-all shadow-lg shadow-blue-900/20 active:scale-[0.98] flex items-center justify-center space-x-2"
             >
-                {loading ? "Processando Cadastro..." : "Cadastrar Assistência Profissional"}
+                {loading ? (
+                    <>
+                        <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                        <span>Processando Cadastro...</span>
+                    </>
+                ) : (
+                    <span>Cadastrar Minha Assistência Profissional</span>
+                )}
             </button>
         </div>
     );
