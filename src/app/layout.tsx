@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import { Montserrat, Inter } from "next/font/google";
 import "./globals.css";
 
@@ -16,22 +17,23 @@ const inter = Inter({
 
 export const metadata: Metadata = {
   title: "Start Nexus | Tecnologia, Educação e Sustentabilidade",
-  description: "ONG de tecnologia que une educação e sustentabilidade por meio da reciclagem de e-lixo e formação profissional.",
+  description:
+      "ONG de tecnologia que une educação e sustentabilidade por meio da reciclagem de e-lixo e formação profissional.",
 };
 
 export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
+                                     children,
+                                   }: {
+  children: ReactNode;
+}) {
   return (
-    <html
-      lang="pt-BR"
-      className={`${montserrat.variable} ${inter.variable} h-full antialiased scroll-smooth`}
-    >
-      <body className="min-h-full flex flex-col bg-background text-foreground overflow-x-hidden">
-        {children}
+      <html
+          lang="pt-BR"
+          className={`${montserrat.variable} ${inter.variable} scroll-smooth`}
+      >
+      <body className="min-h-screen bg-background text-foreground overflow-x-hidden">
+      {children}
       </body>
-    </html>
+      </html>
   );
 }

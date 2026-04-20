@@ -1,0 +1,7 @@
+{
+  "include": [
+    "tailwind.config.js",
+    "postcss.config.js",
+    "next.config.mjs"
+  ]
+}

@@ -1,3 +1,2844 @@
+﻿ESTRUTURA DO PROJETO
+
+==================================================
+CAMINHO: .vercel\project.json
+==================================================
+
+{"projectId":"prj_d4IiDP29HQHBonbulD530YgOnEoS","orgId":"team_jfNT9B2lLTT9PbtNogN0hj9K","projectName":"startnexus"}
+
+
+
+==================================================
+CAMINHO: .vercel\README.txt
+==================================================
+
+> Why do I have a folder named ".vercel" in my project?
+The ".vercel" folder is created when you link a directory to a Vercel project.
+
+> What does the "project.json" file contain?
+The "project.json" file contains:
+- The ID of the Vercel project that you linked ("projectId")
+- The ID of the user or team your Vercel project is owned by ("orgId")
+
+> Should I commit the ".vercel" folder?
+No, you should not share the ".vercel" folder with anyone.
+Upon creation, it will be automatically added to your ".gitignore" file.
+
+
+
+
+==================================================
+CAMINHO: docs\AGENTS.md
+==================================================
+
+# AGENTS.md â€” StartNexus ðŸ§ 
+
+## ðŸŽ¯ VisÃ£o Geral
+
+StartNexus conecta usuÃ¡rios a assistÃªncias tÃ©cnicas permitindo:
+
+- Cadastro de usuÃ¡rios
+- Listagem de assistÃªncias
+- Agendamentos
+- RecuperaÃ§Ã£o de senha
+
+Stack:
+
+- Next.js (App Router)
+- Supabase (Database + Auth)
+- Vercel (Deploy)
+
+---
+
+## ðŸ§± Arquitetura
+
+### Frontend + Backend (Next.js)
+
+src/
+â”œâ”€â”€ app/ â†’ rotas e pÃ¡ginas
+â”œâ”€â”€ components/ â†’ UI
+â”œâ”€â”€ services/ â†’ regras de negÃ³cio
+â”œâ”€â”€ repositories/ â†’ acesso ao Supabase
+â”œâ”€â”€ lib/ â†’ configs (supabase client)
+â”œâ”€â”€ hooks/ â†’ hooks customizados
+
+---
+
+## ðŸ”¥ Regras
+
+### âŒ NÃƒO FAZER
+- NÃ£o acessar Supabase direto nos componentes
+- NÃ£o colocar regra de negÃ³cio em pÃ¡ginas
+- NÃ£o duplicar lÃ³gica
+
+### âœ… FAZER
+
+#### Services
+- ContÃ©m regras de negÃ³cio
+
+#### Repository
+- ComunicaÃ§Ã£o com Supabase
+
+#### Components
+- Apenas UI
+
+---
+
+## âš™ï¸ ConfiguraÃ§Ã£o
+
+VariÃ¡veis ficam em:
+
+.env.local
+
+Nunca hardcode:
+
+- URLs
+- Keys
+
+---
+
+## ðŸ§ª Testes (futuro)
+
+- UnitÃ¡rio (services)
+- IntegraÃ§Ã£o (API)
+
+---
+
+## ðŸš€ Deploy
+
+- Vercel automÃ¡tico via GitHub
+- Supabase remoto
+
+---
+
+## ðŸ“Œ Checklist
+
+- CÃ³digo limpo
+- Sem lÃ³gica em UI
+- Uso correto de services
+
+
+
+==================================================
+CAMINHO: docs\CLAUDE.md
+==================================================
+
+# CLAUDE.md â€” StartNexus ðŸ¤–
+
+## Contexto
+
+Projeto educacional evoluindo para padrÃ£o profissional.
+
+Stack:
+
+- Next.js
+- Supabase
+- Vercel
+
+---
+
+## Arquitetura
+
+- UI â†’ components
+- Regras â†’ services
+- Banco â†’ repositories
+
+---
+
+## Boas prÃ¡ticas
+
+- Sempre separar camadas
+- Nunca acessar DB direto no frontend
+- Criar funÃ§Ãµes reutilizÃ¡veis
+
+---
+
+## Objetivo
+
+Escalar projeto mantendo:
+
+- organizaÃ§Ã£o
+- legibilidade
+- facilidade de manutenÃ§Ã£o
+
+---
+
+## AtenÃ§Ã£o
+
+Antes de sugerir cÃ³digo:
+
+1. Verificar camada correta
+2. Evitar duplicaÃ§Ã£o
+3. Manter padrÃ£o existente
+
+
+
+
+==================================================
+CAMINHO: docs\org.path.md
+==================================================
+
+# ðŸ“ OrganizaÃ§Ã£o de Pastas â€” StartNexus (Atualizado)
+
+## ðŸ§± SRC
+
+src/
+
+## ðŸŽ¨ FRONTEND (Next App Router)
+
+src/app/
+
+- page.tsx â†’ home
+- b2c/page.tsx â†’ cliente
+- b2b/page.tsx â†’ assistÃªncia
+- auth/login
+- auth/register
+
+## ðŸ§© COMPONENTES
+
+src/components/
+
+- forms/
+    - ClientForm.tsx
+    - AssistanceForm.tsx
+
+## âš™ï¸ BACKEND
+
+src/server/
+
+- services/
+- repositories/
+
+## ðŸ”Œ LIB
+
+src/lib/
+
+- supabaseClient
+
+## ðŸ§  REGRAS
+
+- UI nÃ£o acessa banco
+- service centraliza regra
+- banco desacoplado
+- dados normalizados
+
+## ðŸŽ¯ ARQUITETURA
+
+UI â†’ components  
+Logic â†’ services  
+Data â†’ supabase
+
+## ðŸš€ OBJETIVO
+
+Sistema escalÃ¡vel com:
+
+- mÃºltiplos perfis
+- catÃ¡logo de serviÃ§os
+- validaÃ§Ã£o de assistÃªncias
+- marketplace tÃ©cnico
+
+
+
+==================================================
+CAMINHO: docs\README.md
+==================================================
+
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+
+## Getting Started
+
+First, run the development server:
+
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+
+
+==================================================
+CAMINHO: docs\RELATORIO.md
+==================================================
+
+ðŸ“„ RelatÃ³rio TÃ©cnico â€” Modelagem e AutenticaÃ§Ã£o (StartNexus)
+ðŸ§  Objetivo
+
+Definir com clareza:
+
+Quais dados sÃ£o obrigatÃ³rios para autenticaÃ§Ã£o
+Como cada tipo de usuÃ¡rio funciona
+Como o banco suporta o negÃ³cio
+Quais regras garantem consistÃªncia e qualidade
+ðŸ‘¤ 1. TIPOS DE USUÃRIO
+
+O sistema possui 3 papÃ©is distintos:
+
+Role	DescriÃ§Ã£o
+client	UsuÃ¡rio final (B2C)
+assistance	Empresa/profissional validado
+junior	Profissional iniciante sem CNPJ
+ðŸ” 2. AUTENTICAÃ‡ÃƒO (SUPABASE AUTH)
+ðŸ“Œ Fonte primÃ¡ria de autenticaÃ§Ã£o
+
+A autenticaÃ§Ã£o Ã© feita via:
+
+Email + senha
+Gerenciado pelo Supabase Auth
+âš ï¸ REGRA CRÃTICA
+O Supabase Auth NÃƒO armazena dados de negÃ³cio.
+
+ðŸ‘‰ Ele sÃ³ garante:
+
+identidade (user.id)
+email
+login
+ðŸ§± CONSEQUÃŠNCIA
+
+Todos os dados do sistema sÃ£o armazenados em:
+
+users + tabelas relacionadas
+ðŸ—„ï¸ 3. MODELAGEM DE DADOS
+ðŸ”¹ 3.1 USERS (BASE DO SISTEMA)
+users
+ðŸ“Œ Responsabilidade:
+representar qualquer usuÃ¡rio autenticado
+ðŸ“Š Campos:
+Campo	Regra
+id	vem do auth
+email	Ãºnico
+role	define comportamento
+ðŸ”¹ 3.2 CLIENT_PROFILES
+client_profiles
+ðŸ“Œ Responsabilidade:
+dados pessoais do cliente
+ðŸ“Š Campos:
+Campo	ObrigatÃ³rio
+first_name	âœ”
+last_name	âœ”
+address	opcional
+ðŸ”¹ 3.3 SERVICES (CATÃLOGO GLOBAL)
+services
+ðŸ“Œ Responsabilidade:
+lista Ãºnica de serviÃ§os disponÃ­veis
+ðŸ§  REGRA IMPORTANTE
+Cliente e assistÃªncia usam a mesma fonte de serviÃ§os
+ðŸ“Œ Exemplos recomendados:
+Computadores
+Notebooks
+Impressoras
+Redes (roteadores/switch)
+IoT
+Dispositivos mÃ³veis
+Servidores
+SeguranÃ§a eletrÃ´nica
+ðŸ”¹ 3.4 CLIENT_SERVICES
+client_services
+ðŸ“Œ Responsabilidade:
+interesses do cliente
+ðŸ§  Regra:
+N:N com services
+ðŸ”¹ 3.5 SERVICE_SUGGESTIONS
+service_suggestions
+ðŸ“Œ Responsabilidade:
+feedback do cliente
+ðŸ§  Regra:
+permite expansÃ£o do catÃ¡logo
+ðŸ”¹ 3.6 ASSISTANCES
+assistances
+ðŸ“Œ Responsabilidade:
+perfil profissional
+ðŸ“Š Campos obrigatÃ³rios:
+Campo	Regra
+business_name	âœ”
+address	âœ”
+cnpj	obrigatÃ³rio exceto junior
+is_junior	define regra
+approved	controle interno
+ðŸ§  REGRA DE NEGÃ“CIO
+AssistÃªncia NÃƒO Ã© automaticamente confiÃ¡vel
+
+ðŸ‘‰ precisa de validaÃ§Ã£o interna
+
+ðŸ”¹ 3.7 ASSISTANCE_SERVICES
+assistance_services
+ðŸ“Œ Responsabilidade:
+serviÃ§os oferecidos
+ðŸ§  Regra:
+deve usar catÃ¡logo global
+ðŸ”¹ 3.8 ASSISTANCE_DOCUMENTS
+assistance_documents
+ðŸ“Œ Responsabilidade:
+provas de qualificaÃ§Ã£o
+ðŸ“Š Tipos:
+certificado
+foto local
+curso
+comprovaÃ§Ã£o tÃ©cnica
+ðŸ§  REGRA CRÃTICA
+Sem documentos â†’ nÃ£o aprovado
+ðŸ”¹ 3.9 REVIEWS
+reviews
+ðŸ“Œ Responsabilidade:
+reputaÃ§Ã£o da assistÃªncia
+ðŸ”¹ 3.10 APPOINTMENTS
+appointments
+ðŸ“Œ Responsabilidade:
+agendamento entre cliente e assistÃªncia
+ðŸ§  4. REGRAS DE NEGÃ“CIO (CRÃTICAS)
+ðŸ” AUTENTICAÃ‡ÃƒO
+
+âœ” sempre via Supabase Auth
+âœ” nunca confiar apenas no frontend
+
+ðŸ‘¤ CLIENTE
+
+âœ” deve informar:
+
+nome
+sobrenome
+email
+senha
+
+âœ” pode informar:
+
+endereÃ§o
+interesses
+sugestÃµes
+ðŸ¢ ASSISTÃŠNCIA
+
+âœ” deve informar:
+
+nome da empresa
+email
+senha
+endereÃ§o
+
+âœ” obrigatÃ³rio:
+
+CNPJ (exceto junior)
+
+âœ” pode informar:
+
+descriÃ§Ã£o
+serviÃ§os
+ðŸ“Š SERVIÃ‡OS
+
+âœ” catÃ¡logo central
+âœ” sem duplicaÃ§Ã£o
+âœ” controlado pelo sistema
+
+ðŸ“¸ VALIDAÃ‡ÃƒO DE QUALIDADE
+
+âœ” documentos obrigatÃ³rios
+âœ” aprovaÃ§Ã£o manual
+âœ” controle via approved
+
+âš ï¸ INTEGRIDADE
+
+âœ” todas as tabelas ligadas por user.id
+âœ” uso de on delete cascade
+âœ” evitar dados Ã³rfÃ£os
+
+ðŸš¨ 5. RISCOS CONTROLADOS
+Risco	SoluÃ§Ã£o
+spam de cadastro	rate limit + validaÃ§Ã£o
+assistÃªncia fake	documentos + aprovaÃ§Ã£o
+dados inconsistentes	FK + constraints
+duplicaÃ§Ã£o de serviÃ§o	tabela central
+ðŸš€ 6. ARQUITETURA FINAL
+Auth â†’ Supabase Auth
+â†“
+users â†’ identidade
+â†“
+profiles â†’ dados especÃ­ficos
+â†“
+relations â†’ serviÃ§os / agendamentos / avaliaÃ§Ãµes
+ðŸ§  7. CONCLUSÃƒO
+
+O sistema agora:
+
+âœ” separa autenticaÃ§Ã£o de dados
+âœ” suporta mÃºltiplos perfis
+âœ” permite crescimento controlado
+âœ” garante qualidade de serviÃ§o
+âœ” estÃ¡ pronto para escala
+
+
+
+==================================================
+CAMINHO: legacy\index.js
+==================================================
+
+console.log('Happy developing âœ¨')
+
+
+
+
+==================================================
+CAMINHO: src\app\auth\login\page.tsx
+==================================================
+
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { AuthService } from "@/server/services/authService";
+import AuthLayout from "@/components/auth/AuthLayout";
+import LoginHero from "@/components/auth/LoginHero";
+
+const authService = new AuthService();
+
+export default function LoginPage() {
+  const router = useRouter();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handleLogin(e: React.FormEvent) {
+    e.preventDefault();
+    if (loading) return;
+
+    setLoading(true);
+    setError("");
+
+    try {
+      await authService.login(email, password);
+      router.push("/");
+    } catch (err: any) {
+      setError(err.message || "Erro ao fazer login");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <AuthLayout>
+      {/* Coluna Esquerda - Hero com os 3 Pilares */}
+      <LoginHero />
+
+      {/* Coluna Direita - FormulÃ¡rio Centralizado */}
+      <div className="w-full md:w-1/2 p-8 sm:p-12 lg:p-16 flex flex-col items-center justify-center bg-white dark:bg-slate-900">
+        <div className="max-w-md w-full space-y-8">
+          {/* Logo & Header */}
+          <div className="text-center space-y-2">
+            <div className="flex items-center justify-center space-x-2 text-emerald-500 mb-6">
+              <div className="w-12 h-12 bg-emerald-500 rounded-2xl flex items-center justify-center text-white text-2xl font-bold shadow-lg shadow-emerald-900/20">
+                SN
+              </div>
+              <span className="text-3xl font-bold tracking-tight text-slate-900 dark:text-white">StartNexus</span>
+            </div>
+            <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Bem-vindo de volta</h1>
+            <p className="text-slate-500 dark:text-slate-400">Acesse sua conta para gerenciar seus serviÃ§os</p>
+          </div>
+
+          {/* Form */}
+          <form onSubmit={handleLogin} className="space-y-6">
+            {error && (
+              <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl text-red-600 dark:text-red-400 text-sm animate-shake">
+                {error}
+              </div>
+            )}
+
+            <div className="space-y-4">
+              <div>
+                <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300 mb-1.5" htmlFor="email">
+                  E-mail
+                </label>
+                <input
+                  id="email"
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  placeholder="exemplo@email.com"
+                  className="w-full px-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none"
+                  required
+                />
+              </div>
+
+              <div>
+                <div className="flex items-center justify-between mb-1.5">
+                  <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300" htmlFor="password">
+                    Senha
+                  </label>
+                  <Link href="/auth/forgot-password" title="Esqueceu a senha?" className="text-sm text-emerald-600 hover:text-emerald-500 font-medium transition-colors">
+                    Esqueceu a senha?
+                  </Link>
+                </div>
+                <input
+                  id="password"
+                  type="password"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                  className="w-full px-4 py-3.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none"
+                  required
+                />
+              </div>
+            </div>
+
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full py-4 px-4 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all shadow-lg shadow-emerald-900/20 active:scale-[0.98] flex items-center justify-center space-x-2"
+            >
+              {loading ? (
+                <>
+                  <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                  <span>Entrando...</span>
+                </>
+              ) : (
+                <span>Entrar na Plataforma</span>
+              )}
+            </button>
+          </form>
+
+          {/* Footer */}
+          <div className="pt-8 text-center border-t border-slate-100 dark:border-slate-800">
+            <p className="text-slate-600 dark:text-slate-400">
+              Ainda nÃ£o tem uma conta?{" "}
+              <Link href="/auth/register" className="text-emerald-600 hover:text-emerald-500 font-bold transition-colors inline-flex items-center space-x-1 group">
+                <span>Criar conta agora</span>
+                <span className="group-hover:translate-x-1 transition-transform">â†’</span>
+              </Link>
+            </p>
+          </div>
+        </div>
+      </div>
+    </AuthLayout>
+  );
+}
+
+
+
+
+==================================================
+CAMINHO: src\app\auth\register\assistance\page.tsx
+==================================================
+
+"use client";
+
+import Link from "next/link";
+import AuthLayout from "@/components/auth/AuthLayout";
+import AssistanceForm from "@/components/forms/AssistanceForm";
+
+export default function RegisterAssistancePage() {
+  return (
+    <AuthLayout>
+      <div className="w-full p-8 sm:p-12 lg:p-16 flex flex-col bg-white dark:bg-slate-900 relative overflow-y-auto max-h-screen">
+        {/* Navigation */}
+        <div className="absolute top-8 left-8">
+          <Link href="/auth/register" className="flex items-center space-x-2 text-slate-500 hover:text-blue-500 transition-colors group">
+            <span className="group-hover:-translate-x-1 transition-transform">â†</span>
+            <span className="font-bold text-sm">Voltar</span>
+          </Link>
+        </div>
+
+        <div className="max-w-2xl w-full mx-auto space-y-8 py-8">
+          <div className="text-center space-y-2">
+            <div className="flex items-center justify-center space-x-2 text-blue-500 mb-4">
+              <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center text-white text-xl font-bold">
+                SN
+              </div>
+              <span className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">StartNexus</span>
+            </div>
+            <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Portal do Profissional</h1>
+            <p className="text-slate-500 dark:text-slate-400">Expanda seu negÃ³cio e ajude o meio ambiente com logÃ­stica reversa.</p>
+          </div>
+
+          <AssistanceForm />
+
+          <p className="text-center text-sm text-slate-500 pt-6">
+            JÃ¡ tem uma conta?{" "}
+            <Link href="/auth/login" className="text-blue-600 hover:text-blue-500 font-bold transition-colors">
+              Entrar agora
+            </Link>
+          </p>
+        </div>
+      </div>
+    </AuthLayout>
+  );
+}
+
+
+
+
+==================================================
+CAMINHO: src\app\auth\register\client\page.tsx
+==================================================
+
+"use client";
+
+import Link from "next/link";
+import AuthLayout from "@/components/auth/AuthLayout";
+import ClientForm from "@/components/forms/ClientForm";
+
+export default function RegisterClientPage() {
+  return (
+    <AuthLayout>
+      <div className="w-full p-8 sm:p-12 lg:p-16 flex flex-col bg-white dark:bg-slate-900 relative overflow-y-auto max-h-screen">
+        {/* Navigation */}
+        <div className="absolute top-8 left-8">
+          <Link href="/auth/register" className="flex items-center space-x-2 text-slate-500 hover:text-emerald-500 transition-colors group">
+            <span className="group-hover:-translate-x-1 transition-transform">â†</span>
+            <span className="font-bold text-sm">Voltar</span>
+          </Link>
+        </div>
+
+        <div className="max-w-md w-full mx-auto space-y-8 py-8">
+          <div className="text-center space-y-2">
+            <div className="flex items-center justify-center space-x-2 text-emerald-500 mb-4">
+              <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center text-white text-xl font-bold">
+                SN
+              </div>
+              <span className="text-2xl font-bold tracking-tight text-slate-900 dark:text-white">StartNexus</span>
+            </div>
+            <h1 className="text-3xl font-bold text-slate-900 dark:text-white">Crie sua conta de Cliente</h1>
+            <p className="text-slate-500 dark:text-slate-400">Encontre as melhores assistÃªncias tÃ©cnicas da regiÃ£o.</p>
+          </div>
+
+          <ClientForm />
+
+          <p className="text-center text-sm text-slate-500 pt-6">
+            JÃ¡ tem uma conta?{" "}
+            <Link href="/auth/login" className="text-emerald-600 hover:text-emerald-500 font-bold transition-colors">
+              Entrar agora
+            </Link>
+          </p>
+        </div>
+      </div>
+    </AuthLayout>
+  );
+}
+
+
+
+
+==================================================
+CAMINHO: src\app\auth\register\page.tsx
+==================================================
+
+"use client";
+
+import Link from "next/link";
+import AuthLayout from "@/components/auth/AuthLayout";
+import RoleSelector from "@/components/auth/RoleSelector";
+
+export default function RegisterChoicePage() {
+  return (
+    <AuthLayout>
+      <div className="w-full p-8 sm:p-12 lg:p-16 flex flex-col items-center justify-center bg-white dark:bg-slate-900 relative">
+        {/* Top Navigation */}
+        <div className="absolute top-8 left-8">
+          <Link href="/auth/login" className="flex items-center space-x-2 text-slate-500 hover:text-emerald-500 transition-colors group">
+            <span className="group-hover:-translate-x-1 transition-transform">â†</span>
+            <span className="font-medium text-sm">Voltar para Login</span>
+          </Link>
+        </div>
+
+        {/* Logo (Centered on top) */}
+        <div className="mb-8 flex flex-col items-center">
+          <div className="w-12 h-12 bg-emerald-500 rounded-2xl flex items-center justify-center text-white text-2xl font-bold shadow-lg shadow-emerald-900/20 mb-4">
+            SN
+          </div>
+          <span className="text-xl font-bold tracking-tight text-slate-900 dark:text-white">StartNexus</span>
+        </div>
+
+        <RoleSelector />
+
+        {/* Footer info */}
+        <div className="mt-12 text-center text-sm text-slate-500">
+          <p>Ao continuar, vocÃª concorda com nossos Termos de ServiÃ§o e PolÃ­tica de Privacidade.</p>
+        </div>
+      </div>
+    </AuthLayout>
+  );
+}
+
+
+
+
+==================================================
+CAMINHO: src\app\b2b\page.tsx
+==================================================
+
+"use client";
+
+import Link from "next/link";
+import CollectionArea from "@/components/dashboard/CollectionArea";
+import AssistanceProfile from "@/components/dashboard/AssistanceProfile";
+
+export default function B2BPage() {
+  return (
+    <div className="min-h-screen bg-slate-950 text-white font-sans selection:bg-blue-500/30">
+      {/* Navigation */}
+      <nav className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-xl sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+          <div className="flex justify-between h-20 items-center">
+            <div className="flex items-center space-x-3 text-blue-500 group">
+              <div className="w-10 h-10 bg-blue-500 rounded-xl flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-blue-900/20 group-hover:scale-110 transition-transform">
+                SN
+              </div>
+              <span className="text-2xl font-extrabold tracking-tight text-white">StartNexus <span className="text-blue-500 text-sm font-bold bg-blue-500/10 px-2 py-0.5 rounded-md">B2B</span></span>
+            </div>
+            <div className="flex items-center space-x-6">
+              <Link href="/auth/login" className="text-sm font-bold text-slate-400 hover:text-white transition-colors">
+                Sair
+              </Link>
+              <button className="bg-blue-600 hover:bg-blue-700 px-6 py-2.5 rounded-xl text-sm font-extrabold transition-all shadow-xl shadow-blue-900/30 active:scale-95">
+                Painel do TÃ©cnico
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <main className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16">
+        <div className="grid lg:grid-cols-12 gap-12">
+          {/* Main Content */}
+          <div className="lg:col-span-8 space-y-12">
+            <header className="space-y-4 animate-in fade-in slide-in-from-left duration-700">
+              <h1 className="text-5xl font-extrabold tracking-tighter sm:text-6xl leading-tight">
+                Painel de <br /><span className="text-blue-500 underline decoration-blue-500/20 underline-offset-8">Performance TÃ©cnica</span>
+              </h1>
+              <p className="text-xl text-slate-400 max-w-2xl font-medium">
+                Gerencie seus serviÃ§os, acompanhe sua reputaÃ§Ã£o e contribua com a logÃ­stica reversa.
+              </p>
+            </header>
+
+            {/* My Profile Preview */}
+            <section className="space-y-6">
+              <h2 className="text-2xl font-extrabold text-white tracking-tight flex items-center space-x-2">
+                <span>ðŸ“Š</span>
+                <span>Meu Perfil PÃºblico</span>
+              </h2>
+              <AssistanceProfile
+                name="Tech Nexus Solutions"
+                rating={4.9}
+                servicesCount={124}
+                isVerified={true}
+                specialties={["iPhone", "MacBook", "Placa MÃ£e"]}
+              />
+            </section>
+
+            {/* Active Orders Section Placeholder */}
+            <section className="bg-slate-900 border border-slate-800 rounded-3xl p-8 space-y-6">
+              <h3 className="text-xl font-bold text-white">Ordens de ServiÃ§o Ativas</h3>
+              <div className="flex flex-col items-center justify-center py-12 text-center space-y-4">
+                <div className="w-16 h-16 bg-slate-800 rounded-full flex items-center justify-center text-2xl opacity-50">ðŸ“…</div>
+                <p className="text-slate-500 text-sm">VocÃª nÃ£o possui ordens pendentes no momento.</p>
+                <button className="text-blue-500 font-bold text-sm hover:underline">Ver histÃ³rico de serviÃ§os</button>
+              </div>
+            </section>
+          </div>
+
+          {/* Sidebar */}
+          <div className="lg:col-span-4 space-y-8 animate-in fade-in slide-in-from-right duration-700">
+            {/* Collection Area Integration */}
+            <CollectionArea />
+
+            {/* Growth Card */}
+            <div className="bg-slate-900 border border-slate-800 p-8 rounded-3xl space-y-6 shadow-xl relative overflow-hidden group">
+              <div className="absolute top-0 left-0 w-1 bg-blue-500 h-full"></div>
+              <h3 className="text-xl font-extrabold text-white flex items-center space-x-2">
+                <span>ðŸš€</span>
+                <span>Dicas de Crescimento</span>
+              </h3>
+              <div className="space-y-5">
+                <div className="flex items-start space-x-4 group/item">
+                  <div className="mt-1 w-6 h-6 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500 text-xs font-bold group-hover/item:bg-blue-500 group-hover/item:text-white transition-colors">1</div>
+                  <p className="text-sm text-slate-400 group-hover/item:text-slate-200 transition-colors">Mantenha seu portfÃ³lio de fotos sempre atualizado.</p>
+                </div>
+                <div className="flex items-start space-x-4 group/item">
+                  <div className="mt-1 w-6 h-6 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500 text-xs font-bold group-hover/item:bg-blue-500 group-hover/item:text-white transition-colors">2</div>
+                  <p className="text-sm text-slate-400 group-hover/item:text-slate-200 transition-colors">Responda orÃ§amentos em menos de 2 horas para converter mais.</p>
+                </div>
+                <div className="flex items-start space-x-4 group/item">
+                  <div className="mt-1 w-6 h-6 rounded-full bg-blue-500/10 flex items-center justify-center text-blue-500 text-xs font-bold group-hover/item:bg-blue-500 group-hover/item:text-white transition-colors">3</div>
+                  <p className="text-sm text-slate-400 group-hover/item:text-slate-200 transition-colors">Colete lixo eletrÃ´nico para subir no Ranking SustentÃ¡vel.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Support Card */}
+            <div className="bg-gradient-to-br from-blue-600 to-indigo-700 p-8 rounded-3xl shadow-2xl shadow-blue-900/30 group">
+              <h3 className="text-xl font-bold text-white mb-2">Suporte StartNexus</h3>
+              <p className="text-blue-100 text-sm mb-6 leading-relaxed">Precisa de ajuda com a plataforma ou dÃºvidas tÃ©cnicas? Nosso time estÃ¡ online.</p>
+              <button className="w-full bg-white text-blue-600 py-3.5 rounded-xl font-extrabold text-sm hover:bg-blue-50 transition-all active:scale-95 shadow-lg">
+                Falar com Consultor
+              </button>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
+
+
+
+
+==================================================
+CAMINHO: src\app\b2c\page.tsx
+==================================================
+
+"use client";
+
+import Link from "next/link";
+import CollectionArea from "@/components/dashboard/CollectionArea";
+import AssistanceProfile from "@/components/dashboard/AssistanceProfile";
+
+export default function B2CPage() {
+  return (
+    <div className="min-h-screen bg-slate-950 text-white font-sans selection:bg-emerald-500/30">
+      {/* Navigation */}
+      <nav className="border-b border-slate-800 bg-slate-900/50 backdrop-blur-xl sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12">
+          <div className="flex justify-between h-20 items-center">
+            <div className="flex items-center space-x-3 text-emerald-500 group">
+              <div className="w-10 h-10 bg-emerald-500 rounded-xl flex items-center justify-center text-white text-xl font-bold shadow-lg shadow-emerald-900/20 group-hover:scale-110 transition-transform">
+                SN
+              </div>
+              <span className="text-2xl font-extrabold tracking-tight text-white">StartNexus <span className="text-emerald-500 text-sm font-bold bg-emerald-500/10 px-2 py-0.5 rounded-md">B2C</span></span>
+            </div>
+            <div className="flex items-center space-x-6">
+              <Link href="/auth/login" className="text-sm font-bold text-slate-400 hover:text-white transition-colors">
+                Sair
+              </Link>
+              <button className="bg-emerald-600 hover:bg-emerald-700 px-6 py-2.5 rounded-xl text-sm font-extrabold transition-all shadow-xl shadow-emerald-900/30 active:scale-95">
+                Minha Conta
+              </button>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      <main className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 py-16">
+        <div className="grid lg:grid-cols-12 gap-12">
+          {/* Main Content */}
+          <div className="lg:col-span-8 space-y-12">
+            <header className="space-y-4 animate-in fade-in slide-in-from-left duration-700">
+              <h1 className="text-5xl font-extrabold tracking-tighter sm:text-6xl leading-tight">
+                OlÃ¡! Como podemos <br /><span className="text-emerald-500 underline decoration-emerald-500/20 underline-offset-8">ajudar vocÃª</span> hoje?
+              </h1>
+              <p className="text-xl text-slate-400 max-w-2xl font-medium">
+                Encontre especialistas para seus eletrÃ´nicos ou solicite uma coleta sustentÃ¡vel em poucos cliques.
+              </p>
+            </header>
+
+            {/* Assistance List Section */}
+            <section className="space-y-6">
+              <div className="flex items-center justify-between">
+                <h2 className="text-2xl font-extrabold text-white tracking-tight flex items-center space-x-2">
+                  <span>ðŸ› ï¸</span>
+                  <span>AssistÃªncias Recomendadas</span>
+                </h2>
+                <Link href="/search" className="text-sm font-bold text-emerald-500 hover:text-emerald-400 transition-colors">Ver todas â†’</Link>
+              </div>
+              <div className="grid gap-6">
+                <AssistanceProfile
+                  name="Tech Nexus Solutions"
+                  rating={4.9}
+                  servicesCount={124}
+                  isVerified={true}
+                  specialties={["iPhone", "MacBook", "Placa MÃ£e"]}
+                />
+                <AssistanceProfile
+                  name="Junior Tech Lab"
+                  rating={4.7}
+                  servicesCount={32}
+                  isVerified={true}
+                  isJunior={true}
+                  specialties={["Android", "Windows", "Limpeza"]}
+                />
+              </div>
+            </section>
+          </div>
+
+          {/* Sidebar */}
+          <div className="lg:col-span-4 space-y-8 animate-in fade-in slide-in-from-right duration-700">
+            {/* Collection Area Integration */}
+            <CollectionArea />
+
+            {/* Safety & Trust Card */}
+            <div className="bg-slate-900 border border-slate-800 p-8 rounded-3xl space-y-6 shadow-xl relative overflow-hidden group">
+              <div className="absolute top-0 left-0 w-1 bg-emerald-500 h-full"></div>
+              <h3 className="text-xl font-extrabold text-white flex items-center space-x-2">
+                <span>ðŸ›¡ï¸</span>
+                <span>Sua SeguranÃ§a</span>
+              </h3>
+              <div className="space-y-5">
+                <div className="flex items-start space-x-4 group/item">
+                  <div className="mt-1 w-6 h-6 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-500 text-xs font-bold group-hover/item:bg-emerald-500 group-hover/item:text-white transition-colors">âœ“</div>
+                  <p className="text-sm text-slate-400 group-hover/item:text-slate-200 transition-colors">TÃ©cnicos verificados e avaliados pela comunidade.</p>
+                </div>
+                <div className="flex items-start space-x-4 group/item">
+                  <div className="mt-1 w-6 h-6 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-500 text-xs font-bold group-hover/item:bg-emerald-500 group-hover/item:text-white transition-colors">âœ“</div>
+                  <p className="text-sm text-slate-400 group-hover/item:text-slate-200 transition-colors">Garantia de serviÃ§o em todos os reparos Nexus.</p>
+                </div>
+                <div className="flex items-start space-x-4 group/item">
+                  <div className="mt-1 w-6 h-6 rounded-full bg-emerald-500/10 flex items-center justify-center text-emerald-500 text-xs font-bold group-hover/item:bg-emerald-500 group-hover/item:text-white transition-colors">âœ“</div>
+                  <p className="text-sm text-slate-400 group-hover/item:text-slate-200 transition-colors">Pagamento 100% seguro via plataforma.</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Sustainability Info */}
+            <div className="bg-gradient-to-br from-emerald-900/40 to-teal-900/40 border border-emerald-500/20 p-8 rounded-3xl relative group overflow-hidden shadow-2xl">
+              <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-emerald-500/10 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-700"></div>
+              <h3 className="text-emerald-500 font-extrabold text-lg italic mb-3">Dica Nexus Eco</h3>
+              <p className="text-slate-300 text-sm leading-relaxed relative z-10">
+                Ao realizar um descarte eletrÃ´nico, vocÃª ganha **Pontos Nexus** que podem ser trocados por descontos exclusivos em futuros reparos! â™»ï¸
+              </p>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+  );
+}
+
+
+
+
+==================================================
+CAMINHO: src\app\globals.css
+==================================================
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --font-inter: Arial, sans-serif;
+  --font-montserrat: Arial, sans-serif;
+
+  --background: #f8fafc;
+  --foreground: #111827;
+  --primary: #10b981;
+  --secondary: #34d399;
+  --dark: #0f172a;
+  --gray: #e5e7eb;
+}
+
+/* Base */
+html,
+body {
+  width: 100%;
+  min-height: 100%;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+}
+
+/* Headings */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: var(--font-montserrat), Arial, Helvetica, sans-serif;
+}
+
+/* Links */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* BotÃµes */
+button {
+  cursor: pointer;
+}
+
+/* Classes utilitÃ¡rias extras */
+.text-gradient {
+  background: linear-gradient(to right, #10b981, #34d399);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+
+
+==================================================
+CAMINHO: src\app\layout.tsx
+==================================================
+
+import type { Metadata } from "next";
+import type { ReactNode } from "react";
+import { Montserrat, Inter } from "next/font/google";
+import "./globals.css";
+
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-montserrat",
+  weight: ["700"],
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  weight: ["400", "500", "700"],
+});
+
+export const metadata: Metadata = {
+  title: "Start Nexus | Tecnologia, EducaÃ§Ã£o e Sustentabilidade",
+  description:
+      "ONG de tecnologia que une educaÃ§Ã£o e sustentabilidade por meio da reciclagem de e-lixo e formaÃ§Ã£o profissional.",
+};
+
+export default function RootLayout({
+                                     children,
+                                   }: {
+  children: ReactNode;
+}) {
+  return (
+      <html
+          lang="pt-BR"
+          className={`${montserrat.variable} ${inter.variable} scroll-smooth`}
+      >
+      <body className="min-h-screen bg-background text-foreground overflow-x-hidden">
+      {children}
+      </body>
+      </html>
+  );
+}
+
+
+
+==================================================
+CAMINHO: src\app\page.tsx
+==================================================
+
+"use client";
+
+import Navbar from "@/components/layout/Navbar";
+import Hero from "@/components/home/Hero";
+import About from "@/components/home/About";
+import Solutions from "@/components/home/Solutions";
+
+export default function HomePage() {
+  return (
+      <div className="flex flex-col min-h-screen">
+        <Navbar />
+
+        <main className="flex-1">
+          <section id="inicio">
+            <Hero />
+          </section>
+
+          <section id="quem-somos">
+            <About />
+          </section>
+
+          <section id="solucoes">
+            <Solutions />
+          </section>
+
+          <section
+              id="marketplace-preview"
+              className="py-24 bg-gray/30"
+          >
+            <div className="max-w-7xl mx-auto px-6 text-center">
+              Marketplace
+            </div>
+          </section>
+        </main>
+      </div>
+  );
+}
+
+
+
+==================================================
+CAMINHO: src\components\auth\AuthLayout.tsx
+==================================================
+
+import React from "react";
+
+interface AuthLayoutProps {
+  children: React.ReactNode;
+}
+
+export default function AuthLayout({ children }: AuthLayoutProps) {
+  return (
+    <div className="min-h-screen bg-slate-950 flex items-center justify-center p-4 sm:p-6 lg:p-8">
+      <div className="w-full max-w-6xl bg-white dark:bg-slate-900 rounded-3xl overflow-hidden shadow-2xl border border-slate-200/10 flex flex-col md:flex-row min-h-[700px]">
+        {children}
+      </div>
+    </div>
+  );
+}
+
+
+
+
+==================================================
+CAMINHO: src\components\auth\BenefitCard.tsx
+==================================================
+
+import React from "react";
+
+interface BenefitCardProps {
+  icon: string;
+  title: string;
+  description: string;
+}
+
+export default function BenefitCard({ icon, title, description }: BenefitCardProps) {
+  return (
+    <div className="bg-slate-800/40 backdrop-blur-md p-6 rounded-2xl border border-white/10 hover:border-emerald-500/40 transition-all duration-500 hover:bg-slate-800/60 group shadow-lg">
+      <div className="flex items-start space-x-5">
+        <div className="w-12 h-12 bg-emerald-500/10 rounded-xl flex items-center justify-center text-2xl group-hover:scale-110 transition-transform duration-500 shadow-inner">
+          {icon}
+        </div>
+        <div className="flex-1">
+          <h3 className="text-white font-bold text-lg mb-1 group-hover:text-emerald-400 transition-colors">
+            {title}
+          </h3>
+          <p className="text-slate-400 text-sm leading-relaxed group-hover:text-slate-300 transition-colors">
+            {description}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+
+==================================================
+CAMINHO: src\components\auth\LoginHero.tsx
+==================================================
+
+import React from "react";
+import BenefitCard from "./BenefitCard";
+
+export default function LoginHero() {
+  return (
+    <div className="hidden md:flex md:w-1/2 bg-slate-900 p-12 flex-col justify-center relative overflow-hidden">
+      {/* Abstract Background Shapes */}
+      <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-emerald-500/10 rounded-full blur-3xl animate-pulse"></div>
+      <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl animate-pulse delay-700"></div>
+
+      <div className="relative z-10 space-y-8">
+        <div className="mb-12">
+          <h2 className="text-4xl font-extrabold text-white mb-4 leading-tight">
+            A revoluÃ§Ã£o do <span className="text-emerald-500">Marketplace TÃ©cnico</span>
+          </h2>
+          <p className="text-slate-400 max-w-md text-lg leading-relaxed">
+            Conectamos tecnologia, sustentabilidade e oportunidade em uma Ãºnica plataforma premium.
+          </p>
+        </div>
+
+        <div className="space-y-6">
+          <BenefitCard
+            icon="ðŸš€"
+            title="Oportunidade Profissional"
+            description="Estudantes com conhecimento bÃ¡sico podem atuar como AssistÃªncia JÃºnior e conquistar experiÃªncia real."
+          />
+          <BenefitCard
+            icon="â™»ï¸"
+            title="LogÃ­stica SustentÃ¡vel"
+            description="Controle total do lixo eletrÃ´nico. Solicite coletas, acompanhe histÃ³rico e acumule pontos Nexus."
+          />
+          <BenefitCard
+            icon="ðŸ›¡ï¸"
+            title="ConfianÃ§a & Credibilidade"
+            description="Escolha assistÃªncias atravÃ©s de avaliaÃ§Ãµes reais e reputaÃ§Ã£o pÃºblica garantida pela comunidade."
+          />
+        </div>
+
+        <div className="pt-8 border-t border-white/10">
+          <div className="flex items-center space-x-4">
+            <div className="flex -space-x-3">
+              {[1, 2, 3, 4].map((i) => (
+                <div key={i} className={`w-10 h-10 rounded-full border-2 border-slate-900 bg-slate-800 flex items-center justify-center text-sm shadow-xl`}>
+                  ðŸ‘¤
+                </div>
+              ))}
+            </div>
+            <div className="text-sm">
+              <p className="text-white font-bold">+1.200 membros</p>
+              <p className="text-slate-500">jÃ¡ fazem parte da nossa rede</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+
+==================================================
+CAMINHO: src\components\auth\RoleSelector.tsx
+==================================================
+
+import React from "react";
+import Link from "next/link";
+
+interface RoleCardProps {
+  title: string;
+  description: string;
+  icon: string;
+  href: string;
+  buttonText: string;
+  color: "emerald" | "blue";
+  footerText?: string;
+}
+
+function RoleCard({ title, description, icon, href, buttonText, color, footerText }: RoleCardProps) {
+  const colorClasses = {
+    emerald: "hover:border-emerald-500/50 group-hover:bg-emerald-500/10 text-emerald-500 border-slate-200 dark:border-slate-800 shadow-emerald-900/5",
+    blue: "hover:border-blue-500/50 group-hover:bg-blue-500/10 text-blue-500 border-slate-200 dark:border-slate-800 shadow-blue-900/5",
+  };
+
+  const btnClasses = {
+    emerald: "bg-emerald-600 hover:bg-emerald-700 shadow-emerald-900/20 hover:shadow-emerald-500/30",
+    blue: "bg-blue-600 hover:bg-blue-700 shadow-blue-900/20 hover:shadow-blue-500/30",
+  };
+
+  return (
+    <Link href={href} className="group">
+      <div className={`h-full p-8 rounded-3xl border bg-white dark:bg-slate-900 transition-all duration-500 ${colorClasses[color]} flex flex-col items-center text-center space-y-5 hover:scale-[1.03] hover:shadow-2xl relative overflow-hidden`}>
+        {/* Decorative background circle */}
+        <div className={`absolute -top-10 -right-10 w-32 h-32 rounded-full blur-3xl opacity-10 ${color === "emerald" ? "bg-emerald-500" : "bg-blue-500"}`}></div>
+
+        <div className="w-20 h-20 bg-slate-50 dark:bg-slate-950 rounded-2xl flex items-center justify-center text-5xl mb-2 group-hover:scale-110 transition-transform duration-500 shadow-inner">
+          {icon}
+        </div>
+        <div className="space-y-3 flex-1">
+          <h3 className="text-2xl font-extrabold text-slate-900 dark:text-white group-hover:text-emerald-500 transition-colors">
+            {title}
+          </h3>
+          <p className="text-slate-600 dark:text-slate-400 text-sm leading-relaxed max-w-xs mx-auto">
+            {description}
+          </p>
+          {footerText && (
+            <p className="text-xs text-slate-400 italic bg-slate-100 dark:bg-slate-800/50 py-2 px-3 rounded-lg border border-slate-200/50 dark:border-slate-700/50">
+              {footerText}
+            </p>
+          )}
+        </div>
+        <div className={`w-full py-4 rounded-xl text-white font-bold transition-all shadow-lg transform group-active:scale-95 ${btnClasses[color]}`}>
+          {buttonText}
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+export default function RoleSelector() {
+  return (
+    <div className="w-full max-w-4xl mx-auto">
+      <div className="text-center mb-12 space-y-3">
+        <h2 className="text-4xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+          Como deseja usar a <span className="text-emerald-500">StartNexus</span>?
+        </h2>
+        <p className="text-slate-500 dark:text-slate-400 text-lg max-w-2xl mx-auto">
+          Seja vocÃª um cliente em busca de excelÃªncia ou um profissional pronto para crescer.
+        </p>
+      </div>
+
+      <div className="grid md:grid-cols-2 gap-8 px-4 sm:px-0">
+        <RoleCard
+          title="Quero AssistÃªncia"
+          description="Busco tÃ©cnicos confiÃ¡veis para reparar meus aparelhos com garantia e transparÃªncia."
+          icon="ðŸ‘¤"
+          href="/auth/register/client"
+          buttonText="Sou Cliente"
+          color="emerald"
+        />
+        <RoleCard
+          title="Quero ser AssistÃªncia"
+          description="Sou tÃ©cnico, estudante ou empresa e quero oferecer meus serviÃ§os para novos clientes."
+          icon="ðŸ”§"
+          href="/auth/register/assistance"
+          buttonText="Sou Profissional"
+          color="blue"
+          footerText="Estudantes e juniores sÃ£o bem-vindos com suporte especializado!"
+        />
+      </div>
+    </div>
+  );
+}
+
+
+
+
+==================================================
+CAMINHO: src\components\dashboard\AssistanceProfile.tsx
+==================================================
+
+"use client";
+
+import React from "react";
+
+interface AssistanceProfileProps {
+  name: string;
+  rating: number;
+  servicesCount: number;
+  isVerified: boolean;
+  isJunior?: boolean;
+  specialties: string[];
+}
+
+export default function AssistanceProfile({
+  name,
+  rating,
+  servicesCount,
+  isVerified,
+  isJunior,
+  specialties
+}: AssistanceProfileProps) {
+  return (
+    <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl relative overflow-hidden group">
+      {/* Background Decor */}
+      <div className={`absolute top-0 right-0 w-32 h-32 blur-3xl opacity-5 transition-opacity group-hover:opacity-10 ${isJunior ? 'bg-blue-500' : 'bg-emerald-500'}`}></div>
+
+      <div className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
+        {/* Profile Image/Initial */}
+        <div className="relative">
+          <div className={`w-24 h-24 rounded-2xl flex items-center justify-center text-4xl font-extrabold text-white shadow-inner ${isJunior ? 'bg-blue-600' : 'bg-emerald-600'}`}>
+            {name.charAt(0)}
+          </div>
+          {isVerified && (
+            <div className="absolute -bottom-2 -right-2 bg-white dark:bg-slate-950 p-1.5 rounded-full shadow-lg border-2 border-slate-900">
+              <span className="text-emerald-500 text-xl block">âœ…</span>
+            </div>
+          )}
+        </div>
+
+        {/* Info */}
+        <div className="flex-1 space-y-4 text-center md:text-left">
+          <div className="space-y-1">
+            <div className="flex flex-col md:flex-row items-center md:items-baseline space-y-2 md:space-y-0 md:space-x-3">
+              <h3 className="text-2xl font-extrabold text-white tracking-tight">{name}</h3>
+              {isJunior && (
+                <span className="bg-blue-500/10 text-blue-500 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full border border-blue-500/20">
+                  AssistÃªncia JÃºnior
+                </span>
+              )}
+            </div>
+            <div className="flex items-center justify-center md:justify-start space-x-2 text-yellow-500">
+              <div className="flex">
+                {[...Array(5)].map((_, i) => (
+                  <span key={i} className={i < Math.floor(rating) ? "text-yellow-400" : "text-slate-700 opacity-50"}>â˜…</span>
+                ))}
+              </div>
+              <span className="text-white font-bold text-sm">{rating.toFixed(1)}</span>
+              <span className="text-slate-500 text-xs">â€¢ {servicesCount} serviÃ§os realizados</span>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+            {specialties.map((spec, i) => (
+              <span key={i} className="bg-slate-800 text-slate-300 text-[10px] font-bold px-3 py-1 rounded-lg border border-slate-700/50">
+                {spec}
+              </span>
+            ))}
+          </div>
+
+          <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row gap-3">
+            <button className="flex-1 bg-white text-slate-900 py-3 rounded-xl font-bold text-sm hover:bg-slate-200 transition-colors shadow-lg active:scale-95">
+              Ver Perfil Completo
+            </button>
+            <button className={`flex-1 border py-3 rounded-xl font-bold text-sm transition-all active:scale-95 ${isJunior ? 'border-blue-500/50 text-blue-500 hover:bg-blue-500/10' : 'border-emerald-500/50 text-emerald-500 hover:bg-emerald-500/10'}`}>
+              Solicitar OrÃ§amento
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Reviews Preview (Small) */}
+      <div className="mt-8 bg-slate-950/50 p-5 rounded-2xl border border-slate-800/50">
+        <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-4 opacity-70">AvaliaÃ§Ãµes Recentes</h4>
+        <div className="space-y-4">
+          <div className="space-y-1.5">
+            <div className="flex items-center space-x-2">
+              <div className="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center text-[8px]">ðŸ‘¤</div>
+              <p className="text-xs text-white font-bold">Ricardo M.</p>
+              <div className="flex text-[8px] text-yellow-500">â˜…â˜…â˜…â˜…â˜…</div>
+            </div>
+            <p className="text-[11px] text-slate-500 leading-relaxed">"Excelente serviÃ§o, rÃ¡pido e honesto. Meu celular ficou como novo!"</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+
+==================================================
+CAMINHO: src\components\dashboard\CollectionArea.tsx
+==================================================
+
+"use client";
+
+import React, { useState } from "react";
+
+export default function CollectionArea() {
+  const [activeTab, setActiveTab] = useState<"new" | "history" | "points">("new");
+
+  return (
+    <div className="bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl">
+      {/* Header Tabs */}
+      <div className="flex border-b border-slate-800 bg-slate-950/50">
+        <button
+          onClick={() => setActiveTab("new")}
+          className={`flex-1 py-4 text-sm font-bold transition-all ${activeTab === "new" ? "text-emerald-500 border-b-2 border-emerald-500 bg-emerald-500/5" : "text-slate-500 hover:text-slate-300"}`}
+        >
+          â™»ï¸ Nova Coleta
+        </button>
+        <button
+          onClick={() => setActiveTab("history")}
+          className={`flex-1 py-4 text-sm font-bold transition-all ${activeTab === "history" ? "text-emerald-500 border-b-2 border-emerald-500 bg-emerald-500/5" : "text-slate-500 hover:text-slate-300"}`}
+        >
+          ðŸ“œ HistÃ³rico
+        </button>
+        <button
+          onClick={() => setActiveTab("points")}
+          className={`flex-1 py-4 text-sm font-bold transition-all ${activeTab === "points" ? "text-emerald-500 border-b-2 border-emerald-500 bg-emerald-500/5" : "text-slate-500 hover:text-slate-300"}`}
+        >
+          ðŸ’Ž Pontos Nexus
+        </button>
+      </div>
+
+      <div className="p-8">
+        {activeTab === "new" && (
+          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
+            <div className="space-y-2">
+              <h3 className="text-xl font-bold text-white">Solicitar Descarte EcolÃ³gico</h3>
+              <p className="text-slate-400 text-sm">Agende a retirada de seus resÃ­duos eletrÃ´nicos e ganhe pontos.</p>
+            </div>
+            <div className="grid gap-4">
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-500 uppercase">Tipo de ResÃ­duo</label>
+                <select className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white outline-none focus:border-emerald-500 transition-colors">
+                  <option>Smartphone / Tablet</option>
+                  <option>Notebook / Computador</option>
+                  <option>PerifÃ©ricos (Mouse, Teclado)</option>
+                  <option>EletrodomÃ©sticos Pequenos</option>
+                </select>
+              </div>
+              <div className="space-y-1.5">
+                <label className="text-xs font-bold text-slate-500 uppercase">DescriÃ§Ã£o Opcional</label>
+                <textarea
+                  placeholder="Ex: Notebook antigo com bateria inchada"
+                  className="w-full bg-slate-950 border border-slate-800 rounded-xl px-4 py-3 text-white outline-none focus:border-emerald-500 transition-colors h-24 resize-none"
+                ></textarea>
+              </div>
+              <button className="w-full bg-emerald-600 hover:bg-emerald-700 py-4 rounded-xl text-white font-bold transition-all shadow-lg shadow-emerald-900/20 active:scale-95">
+                Confirmar Agendamento
+              </button>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "history" && (
+          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
+            <div className="space-y-2">
+              <h3 className="text-xl font-bold text-white">Minhas Coletas</h3>
+              <p className="text-slate-400 text-sm">Acompanhe o status das suas solicitaÃ§Ãµes.</p>
+            </div>
+            <div className="space-y-3">
+              {[
+                { id: "1", date: "15/04/2026", status: "ConcluÃ­do", item: "Smartphone" },
+                { id: "2", date: "10/04/2026", status: "Em Rota", item: "Monitor LCD" },
+              ].map((item) => (
+                <div key={item.id} className="flex items-center justify-between p-4 bg-slate-950 rounded-2xl border border-slate-800">
+                  <div>
+                    <p className="text-white font-bold">{item.item}</p>
+                    <p className="text-xs text-slate-500">{item.date}</p>
+                  </div>
+                  <span className={`px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-wider ${item.status === "ConcluÃ­do" ? "bg-emerald-500/10 text-emerald-500 border border-emerald-500/20" : "bg-blue-500/10 text-blue-500 border border-blue-500/20"}`}>
+                    {item.status}
+                  </span>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {activeTab === "points" && (
+          <div className="space-y-6 animate-in fade-in slide-in-from-bottom-2 duration-500">
+            <div className="bg-gradient-to-br from-emerald-600 to-teal-700 p-8 rounded-3xl text-center shadow-xl shadow-emerald-900/20">
+              <p className="text-emerald-100 text-sm font-bold uppercase tracking-widest mb-2">Saldo Atual</p>
+              <h2 className="text-5xl font-extrabold text-white mb-4">450 <span className="text-2xl font-normal opacity-70">pts</span></h2>
+              <div className="w-full bg-white/10 h-2 rounded-full overflow-hidden">
+                <div className="bg-white h-full w-[45%]"></div>
+              </div>
+              <p className="text-emerald-100 text-xs mt-3">Faltam 550 pts para o prÃ³ximo nÃ­vel (Eco Master)</p>
+            </div>
+
+            <div className="space-y-4">
+              <h4 className="text-white font-bold text-sm">BenefÃ­cios DisponÃ­veis</h4>
+              <div className="grid grid-cols-2 gap-3">
+                <div className="p-4 bg-slate-950 rounded-2xl border border-slate-800 opacity-50">
+                  <p className="text-white font-bold text-sm">10% Off Reparo</p>
+                  <p className="text-[10px] text-slate-500">Custa 1000 pts</p>
+                </div>
+                <div className="p-4 bg-slate-950 rounded-2xl border border-slate-800 opacity-50">
+                  <p className="text-white font-bold text-sm">Selo Eco-Friend</p>
+                  <p className="text-[10px] text-slate-500">Custa 500 pts</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}
+
+
+
+
+==================================================
+CAMINHO: src\components\forms\AssistanceForm.tsx
+==================================================
+
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { AuthService } from "@/server/services/authService";
+import { supabase } from "@/lib/supabaseClient";
+
+const authService = new AuthService();
+
+export default function AssistanceForm() {
+    const [services, setServices] = useState<any[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+
+    const [form, setForm] = useState({
+        email: "",
+        password: "",
+        businessName: "",
+        cnpj: "",
+        address: "",
+        description: "",
+        experience: 0,
+        isJunior: false,
+        services: [] as string[],
+        logo: null as File | null,
+        workspacePhotos: [] as File[],
+        certificates: [] as File[],
+    });
+
+    useEffect(() => {
+        async function fetchServices() {
+            const { data } = await supabase.from("services").select("*");
+            setServices(data || []);
+        }
+        void fetchServices();
+    }, []);
+
+    function handleChange(e: any) {
+        const { name, value, type, checked, files } = e.target;
+        if (type === "file") {
+            setForm({
+                ...form,
+                [name]: files ? Array.from(files) : [],
+            });
+        } else {
+            setForm({
+                ...form,
+                [name]: type === "checkbox" ? checked : value,
+            });
+        }
+    }
+
+    function toggleService(id: string) {
+        setForm((prev) => ({
+            ...prev,
+            services: prev.services.includes(id)
+                ? prev.services.filter((s) => s !== id)
+                : [...prev.services, id],
+        }));
+    }
+
+    async function handleRegister() {
+        if (loading) return;
+        setError("");
+
+        if (!form.email || !form.password || !form.businessName) {
+            setError("E-mail, senha e nome da assistÃªncia sÃ£o obrigatÃ³rios.");
+            return;
+        }
+
+        setLoading(true);
+        try {
+            await authService.registerAssistance(form);
+            alert("Cadastro de assistÃªncia realizado com sucesso!");
+        } catch (err: any) {
+            setError(err.message || "Erro ao cadastrar assistÃªncia.");
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    return (
+        <div className="space-y-8 w-full max-w-2xl mx-auto pb-12">
+            {error && (
+                <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl text-red-600 dark:text-red-400 text-sm animate-shake">
+                    {error}
+                </div>
+            )}
+
+            <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Nome da AssistÃªncia</label>
+                        <input
+                            name="businessName"
+                            placeholder="Ex: Tech Nexus Solutions"
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none"
+                        />
+                    </div>
+
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">E-mail Profissional</label>
+                        <input
+                            name="email"
+                            type="email"
+                            placeholder="contato@empresa.com"
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none"
+                        />
+                    </div>
+
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Senha</label>
+                        <input
+                            name="password"
+                            type="password"
+                            placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none"
+                        />
+                    </div>
+
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">CNPJ (Opcional)</label>
+                        <input
+                            name="cnpj"
+                            placeholder="00.000.000/0000-00"
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none"
+                        />
+                    </div>
+                </div>
+
+                <div className="space-y-4">
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">EndereÃ§o da Loja/Oficina</label>
+                        <input
+                            name="address"
+                            placeholder="Rua, nÃºmero, bairro"
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none"
+                        />
+                    </div>
+
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Anos de ExperiÃªncia</label>
+                        <input
+                            name="experience"
+                            type="number"
+                            placeholder="0"
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none"
+                        />
+                    </div>
+
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">DescriÃ§Ã£o dos ServiÃ§os</label>
+                        <textarea
+                            name="description"
+                            placeholder="Fale sobre suas especialidades e diferencial..."
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none h-32 resize-none"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            {/* Junior Section */}
+            <div className={`p-5 rounded-2xl border transition-all flex items-center space-x-4 ${form.isJunior ? 'bg-blue-600 border-blue-400 shadow-lg shadow-blue-900/20' : 'bg-blue-50 dark:bg-blue-900/10 border-blue-100 dark:border-blue-800'}`}>
+                <div className="relative flex items-center justify-center">
+                    <input
+                        type="checkbox"
+                        name="isJunior"
+                        checked={form.isJunior}
+                        onChange={handleChange}
+                        className="w-6 h-6 rounded-lg border-2 border-blue-400 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                    />
+                </div>
+                <div className="flex-1">
+                    <label className={`block font-bold text-sm ${form.isJunior ? 'text-white' : 'text-blue-700 dark:text-blue-400'}`}>
+                        Sou Assistente JÃºnior (Estudante/Iniciante)
+                    </label>
+                    <p className={`text-xs ${form.isJunior ? 'text-blue-100' : 'text-blue-600/80 dark:text-blue-500/60'}`}>
+                        Se vocÃª tem curso de hardware ou manutenÃ§Ã£o e estÃ¡ comeÃ§ando, marque esta opÃ§Ã£o para suporte especializado.
+                    </p>
+                </div>
+                {form.isJunior && <span className="text-2xl animate-bounce">ðŸš€</span>}
+            </div>
+
+            <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-4">
+                <h3 className="font-bold text-slate-900 dark:text-white flex items-center space-x-2">
+                    <span>ðŸ› ï¸</span>
+                    <span>Especialidades TÃ©cnicas</span>
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {services.map((s: any) => (
+                        <label key={s.id} className={`flex items-center space-x-3 p-3 rounded-xl border cursor-pointer transition-all ${form.services.includes(s.id) ? 'bg-blue-500 border-blue-400 text-white shadow-md' : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-blue-500'}`}>
+                            <input
+                                type="checkbox"
+                                checked={form.services.includes(s.id)}
+                                onChange={() => toggleService(s.id)}
+                                className="hidden"
+                            />
+                            <span className="text-sm font-medium">{s.name}</span>
+                        </label>
+                    ))}
+                </div>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+                <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Logo</label>
+                    <div className="p-4 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl hover:border-blue-500 transition-colors text-center cursor-pointer group">
+                        <input
+                            type="file"
+                            name="logo"
+                            onChange={(e: any) => setForm({ ...form, logo: e.target.files[0] })}
+                            className="hidden"
+                            id="logo-upload"
+                        />
+                        <label htmlFor="logo-upload" className="cursor-pointer">
+                            <span className="text-2xl block mb-1 group-hover:scale-110 transition-transform">ðŸ–¼ï¸</span>
+                            <span className="text-xs text-slate-500 group-hover:text-blue-500">Upload Logo</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">EspaÃ§o FÃ­sico</label>
+                    <div className="p-4 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl hover:border-blue-500 transition-colors text-center cursor-pointer group">
+                        <input
+                            type="file"
+                            name="workspacePhotos"
+                            multiple
+                            onChange={handleChange}
+                            className="hidden"
+                            id="workspace-upload"
+                        />
+                        <label htmlFor="workspace-upload" className="cursor-pointer">
+                            <span className="text-2xl block mb-1 group-hover:scale-110 transition-transform">ðŸ“¸</span>
+                            <span className="text-xs text-slate-500 group-hover:text-blue-500">Fotos da Oficina</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">CertificaÃ§Ãµes</label>
+                    <div className="p-4 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl hover:border-blue-500 transition-colors text-center cursor-pointer group">
+                        <input
+                            type="file"
+                            name="certificates"
+                            multiple
+                            onChange={handleChange}
+                            className="hidden"
+                            id="cert-upload"
+                        />
+                        <label htmlFor="cert-upload" className="cursor-pointer">
+                            <span className="text-2xl block mb-1 group-hover:scale-110 transition-transform">ðŸ“œ</span>
+                            <span className="text-xs text-slate-500 group-hover:text-blue-500">Certificados</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <button
+                onClick={handleRegister}
+                disabled={loading}
+                className="w-full py-4 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-extrabold rounded-xl transition-all shadow-lg shadow-blue-900/20 active:scale-[0.98] flex items-center justify-center space-x-2"
+            >
+                {loading ? (
+                    <>
+                        <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                        <span>Processando Cadastro...</span>
+                    </>
+                ) : (
+                    <span>Cadastrar Minha AssistÃªncia Profissional</span>
+                )}
+            </button>
+        </div>
+    );
+}
+
+
+
+
+==================================================
+CAMINHO: src\components\forms\ClientForm.tsx
+==================================================
+
+"use client";
+
+import { useState, type ChangeEvent } from "react";
+import { AuthService } from "@/server/services/authService";
+
+const authService = new AuthService();
+
+export default function ClientForm() {
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+
+    const [form, setForm] = useState({
+        email: "",
+        password: "",
+        firstName: "",
+        lastName: "",
+        address: "",
+    });
+
+    function handleChange(e: ChangeEvent<HTMLInputElement>) {
+        const { name, value } = e.target;
+        setForm((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    }
+
+    async function handleRegister() {
+        if (loading) return;
+        setError("");
+
+        if (!form.email || !form.password || !form.firstName) {
+            setError("Por favor, preencha todos os campos obrigatÃ³rios.");
+            return;
+        }
+
+        setLoading(true);
+
+        try {
+            await authService.registerClient(form);
+            alert("Conta de cliente criada com sucesso!");
+            // Redirecionar para login ou b2c
+        } catch (err: any) {
+            setError(err.message || "Erro ao criar conta.");
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    return (
+        <div className="space-y-6 w-full max-w-md mx-auto">
+            {error && (
+                <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl text-red-600 dark:text-red-400 text-sm animate-shake">
+                    {error}
+                </div>
+            )}
+
+            <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Nome</label>
+                        <input
+                            name="firstName"
+                            placeholder="JoÃ£o"
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none"
+                        />
+                    </div>
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Sobrenome</label>
+                        <input
+                            name="lastName"
+                            placeholder="Silva"
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none"
+                        />
+                    </div>
+                </div>
+
+                <div className="space-y-1.5">
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">E-mail</label>
+                    <input
+                        name="email"
+                        type="email"
+                        placeholder="joao@exemplo.com"
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none"
+                    />
+                </div>
+
+                <div className="space-y-1.5">
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Senha</label>
+                    <input
+                        name="password"
+                        type="password"
+                        placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none"
+                    />
+                </div>
+
+                <div className="space-y-1.5">
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">EndereÃ§o Completo</label>
+                    <input
+                        name="address"
+                        placeholder="Rua, nÃºmero, bairro, cidade"
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none"
+                    />
+                </div>
+            </div>
+
+            <button
+                onClick={handleRegister}
+                disabled={loading}
+                className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all shadow-lg shadow-emerald-900/20 active:scale-[0.98] mt-4 flex items-center justify-center space-x-2"
+            >
+                {loading ? (
+                    <>
+                        <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                        <span>Criando sua conta...</span>
+                    </>
+                ) : (
+                    <span>Finalizar Cadastro de Cliente</span>
+                )}
+            </button>
+        </div>
+    );
+}
+
+
+
+
+==================================================
+CAMINHO: src\components\home\About.tsx
+==================================================
+
+"use client";
+
+import React from "react";
+import { motion } from "framer-motion";
+
+export default function About() {
+  const stats = [
+    { label: "VoluntÃ¡rios Ativos", value: "40+" },
+    { label: "Projetos Sociais", value: "10+" },
+    { label: "E-lixo Reciclado", value: "2t+" },
+    { label: "Vidas Impactadas", value: "500+" },
+  ];
+
+  return (
+    <section id="quem-somos" className="py-24 bg-gray/30 relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="space-y-8"
+          >
+            <div className="space-y-4">
+              <h2 className="text-primary text-sm font-extrabold uppercase tracking-[0.2em]">Quem Somos</h2>
+              <h3 className="text-4xl md:text-5xl font-extrabold text-dark tracking-tighter leading-tight">
+                Construindo o futuro com <br />
+                <span className="text-gradient">tecnologia e propÃ³sito</span>
+              </h3>
+            </div>
+
+            <div className="space-y-6 text-lg text-dark/70 font-medium leading-relaxed">
+              <p>
+                A Start Nexus nasceu em SÃ£o Paulo com a missÃ£o de unir educaÃ§Ã£o tecnolÃ³gica, inclusÃ£o social e sustentabilidade ambiental.
+              </p>
+              <p>
+                Atendemos jovens, adultos e idosos que desejam ingressar no mercado digital por meio de cursos acessÃ­veis. Enquanto capacitamos pessoas, tambÃ©m transformamos lixo eletrÃ´nico em ferramentas de aprendizagem e recursos para o bem social.
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-8 pt-6">
+              {stats.map((stat) => (
+                <div key={stat.label} className="space-y-1">
+                  <p className="text-4xl font-extrabold text-dark tracking-tighter">{stat.value}</p>
+                  <p className="text-xs font-bold text-dark/40 uppercase tracking-widest">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+            className="grid gap-6"
+          >
+            {/* Mission, Vision, Values Cards */}
+            <div className="bg-white p-8 rounded-[32px] shadow-xl shadow-dark/5 border border-gray hover:border-primary/20 transition-all duration-500 group">
+              <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">ðŸŽ¯</div>
+              <h4 className="text-xl font-bold text-dark mb-3">Nossa MissÃ£o</h4>
+              <p className="text-dark/60 font-medium text-sm leading-relaxed">
+                Promover a inclusÃ£o social via educaÃ§Ã£o tecnolÃ³gica de qualidade e o reaproveitamento inteligente de resÃ­duos eletrÃ´nicos.
+              </p>
+            </div>
+
+            <div className="grid sm:grid-cols-2 gap-6">
+              <div className="bg-white p-8 rounded-[32px] shadow-xl shadow-dark/5 border border-gray hover:border-secondary/20 transition-all duration-500 group">
+                <div className="w-12 h-12 bg-secondary/10 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">ðŸ‘ï¸</div>
+                <h4 className="text-xl font-bold text-dark mb-3">Nossa VisÃ£o</h4>
+                <p className="text-dark/60 font-medium text-sm leading-relaxed">
+                  Ser referÃªncia nacional em formaÃ§Ã£o tecnolÃ³gica inclusiva e economia circular atÃ© 2028.
+                </p>
+              </div>
+              <div className="bg-dark p-8 rounded-[32px] shadow-2xl shadow-dark/20 border border-dark group">
+                <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">ðŸ’Ž</div>
+                <h4 className="text-xl font-bold text-white mb-3">Nossos Valores</h4>
+                <ul className="text-white/60 font-bold text-[10px] uppercase tracking-widest grid grid-cols-2 gap-2">
+                  <li>â€¢ InclusÃ£o</li>
+                  <li>â€¢ Sustentabilidade</li>
+                  <li>â€¢ InovaÃ§Ã£o</li>
+                  <li>â€¢ TransparÃªncia</li>
+                  <li>â€¢ ColaboraÃ§Ã£o</li>
+                  <li>â€¢ Empoderamento</li>
+                </ul>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+
+
+==================================================
+CAMINHO: src\components\home\AuthCard.tsx
+==================================================
+
+"use client";
+
+import { useState } from "react";
+import { motion } from "framer-motion";
+import { useRouter } from "next/navigation";
+import { AuthService } from "@/server/services/authService";
+
+const authService = new AuthService();
+
+export default function AuthCard() {
+  const router = useRouter();
+
+  const [authType, setAuthType] =
+      useState<"client" | "assistance">("client");
+
+  const [mode, setMode] =
+      useState<"login" | "register">("login");
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handleSubmit(
+      e: SubmitEvent & {
+        currentTarget: HTMLFormElement;
+        preventDefault(): void;
+      }
+  ) {
+    e.preventDefault();
+
+    if (loading) return;
+
+    setLoading(true);
+    setError("");
+
+    try {
+      if (mode === "login") {
+        await authService.login(email, password);
+
+        router.push(
+            authType === "assistance"
+                ? "/b2b"
+                : "/b2c"
+        );
+      } else {
+        router.push(
+            authType === "assistance"
+                ? "/auth/register/assistance"
+                : "/auth/register/client"
+        );
+      }
+    } catch (err: any) {
+      setError(
+          err?.message ||
+          "Erro ao processar solicitaÃ§Ã£o"
+      );
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+      <motion.div
+          initial={{ opacity: 0, y: 25 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="w-full max-w-md mx-auto"
+      >
+        <div className="bg-white p-8 rounded-3xl shadow-2xl">
+          <div className="space-y-6">
+            <div className="text-center">
+              <h3 className="text-2xl font-bold">
+                {mode === "login"
+                    ? "Acesse sua conta"
+                    : "Criar conta"}
+              </h3>
+
+              <p className="text-sm text-gray-500">
+                {authType === "assistance"
+                    ? "Equipe tÃ©cnica"
+                    : "Clientes e alunos"}
+              </p>
+            </div>
+
+            <div className="flex gap-2">
+              <button
+                  type="button"
+                  onClick={() =>
+                      setAuthType("assistance")
+                  }
+                  className="flex-1 border rounded-xl py-3"
+              >
+                AssistÃªncia
+              </button>
+
+              <button
+                  type="button"
+                  onClick={() =>
+                      setAuthType("client")
+                  }
+                  className="flex-1 border rounded-xl py-3"
+              >
+                Cliente
+              </button>
+            </div>
+
+            {error && (
+                <div className="text-red-500 text-sm">
+                  {error}
+                </div>
+            )}
+
+            <form
+                onSubmit={(e) => handleSubmit(e as any)}
+                className="space-y-4"
+            >
+              <input
+                  type="email"
+                  placeholder="Email"
+                  value={email}
+                  onChange={(e) =>
+                      setEmail(e.target.value)
+                  }
+                  className="w-full border rounded-xl px-4 py-3"
+                  required
+              />
+
+              <input
+                  type="password"
+                  placeholder="Senha"
+                  value={password}
+                  onChange={(e) =>
+                      setPassword(e.target.value)
+                  }
+                  className="w-full border rounded-xl px-4 py-3"
+                  required
+              />
+
+              <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full bg-black text-white py-3 rounded-xl"
+              >
+                {loading
+                    ? "Processando..."
+                    : mode === "login"
+                        ? "Entrar"
+                        : "Cadastrar"}
+              </button>
+            </form>
+
+            <button
+                type="button"
+                onClick={() =>
+                    setMode(
+                        mode === "login"
+                            ? "register"
+                            : "login"
+                    )
+                }
+                className="text-sm w-full"
+            >
+              {mode === "login"
+                  ? "NÃ£o possui conta? Cadastre-se"
+                  : "JÃ¡ possui conta? Entrar"}
+            </button>
+          </div>
+        </div>
+      </motion.div>
+  );
+}
+
+
+
+==================================================
+CAMINHO: src\components\home\Hero.tsx
+==================================================
+
+"use client";
+
+import React from "react";
+import { motion } from "framer-motion";
+import AuthCard from "./AuthCard";
+
+export default function Hero() {
+  const pillars = [
+    { icon: "ðŸ’»", title: "EducaÃ§Ã£o", desc: "Cursos gratuitos" },
+    { icon: "â™»ï¸", title: "Sustentabilidade", desc: "Coleta de e-lixo" },
+    { icon: "ðŸš€", title: "InclusÃ£o", desc: "Oportunidades" },
+  ];
+
+  return (
+    <section id="inicio" className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden bg-white">
+      {/* Decorative background elements */}
+      <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] -translate-y-1/2"></div>
+      <div className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[100px] translate-y-1/2"></div>
+
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          {/* Left Column: Content */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="space-y-10"
+          >
+            <div className="space-y-6">
+              <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter text-dark leading-[0.95]">
+                Transformamos vidas com <br />
+                <span className="text-gradient">tecnologia,</span> <br />
+                <span className="text-gradient">educaÃ§Ã£o</span> e <br />
+                <span className="text-gradient">sustentabilidade</span>
+              </h1>
+              <p className="text-xl text-dark/60 font-medium max-w-xl leading-relaxed">
+                Capacitamos jovens, adultos e idosos para o mercado digital enquanto transformamos lixo eletrÃ´nico em oportunidades reais.
+              </p>
+            </div>
+
+            {/* Pillars Grid */}
+            <div className="grid sm:grid-cols-3 gap-4">
+              {pillars.map((p, i) => (
+                <motion.div
+                  key={p.title}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
+                  className="bg-gray/30 border border-gray/50 p-5 rounded-2xl hover:border-primary/30 transition-colors group"
+                >
+                  <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">{p.icon}</div>
+                  <h4 className="text-xs font-extrabold text-dark uppercase tracking-wider mb-1">{p.title}</h4>
+                  <p className="text-[10px] text-dark/50 font-bold leading-tight">{p.desc}</p>
+                </motion.div>
+              ))}
+            </div>
+
+            <div className="flex flex-wrap gap-4 pt-4">
+              <button className="bg-dark text-white px-8 py-4 rounded-full font-bold shadow-2xl shadow-dark/20 hover:scale-105 transition-transform active:scale-95">
+                ConheÃ§a a ONG
+              </button>
+              <button className="bg-white text-dark border border-gray px-8 py-4 rounded-full font-bold shadow-lg hover:bg-gray transition-colors active:scale-95">
+                Explorar Marketplace
+              </button>
+            </div>
+          </motion.div>
+
+          {/* Right Column: Auth Card */}
+          <div className="relative">
+            {/* Background elements behind card */}
+            <div className="absolute inset-0 bg-primary/10 blur-[100px] rounded-full scale-75 animate-pulse"></div>
+            <AuthCard />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+
+
+==================================================
+CAMINHO: src\components\home\Solutions.tsx
+==================================================
+
+"use client";
+
+import React from "react";
+import { motion } from "framer-motion";
+
+export default function Solutions() {
+  const solutions = [
+    {
+      title: "Marketplace SolidÃ¡rio",
+      desc: "EspaÃ§o dedicado para a venda e doaÃ§Ã£o de equipamentos eletrÃ´nicos recuperados em nossas aulas prÃ¡ticas.",
+      icon: "ðŸ›’",
+      color: "bg-blue-500",
+    },
+    {
+      title: "Coleta de E-lixo",
+      desc: "Pontos de descarte inteligente espalhados por SÃ£o Paulo para garantir o destino correto de resÃ­duos eletrÃ´nicos.",
+      icon: "â™»ï¸",
+      color: "bg-emerald-500",
+    },
+    {
+      title: "EducaÃ§Ã£o em TI",
+      desc: "Cursos gratuitos de hardware, redes e suporte tÃ©cnico, focados na reinserÃ§Ã£o profissional de jovens e adultos.",
+      icon: "ðŸŽ“",
+      color: "bg-purple-500",
+    },
+  ];
+
+  return (
+    <section id="solucoes" className="py-24 bg-white relative overflow-hidden">
+      <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
+        <div className="text-center space-y-4 mb-20">
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-primary text-sm font-extrabold uppercase tracking-[0.2em]"
+          >
+            SoluÃ§Ãµes
+          </motion.h2>
+          <motion.h3 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-4xl md:text-5xl font-extrabold text-dark tracking-tighter"
+          >
+            Como transformamos <span className="text-gradient">o mundo</span>
+          </motion.h3>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-8">
+          {solutions.map((solution, i) => (
+            <motion.div
+              key={solution.title}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: i * 0.2 }}
+              className="group bg-gray/30 p-10 rounded-[40px] border border-gray hover:bg-white hover:shadow-2xl hover:shadow-dark/5 hover:-translate-y-2 transition-all duration-500"
+            >
+              <div className={`w-16 h-16 ${solution.color} rounded-2xl flex items-center justify-center text-3xl mb-8 shadow-lg group-hover:scale-110 transition-transform duration-500 text-white`}>
+                {solution.icon}
+              </div>
+              <h4 className="text-2xl font-bold text-dark mb-4 tracking-tight">{solution.title}</h4>
+              <p className="text-dark/60 font-medium leading-relaxed">
+                {solution.desc}
+              </p>
+              <div className="mt-8 pt-8 border-t border-gray/50 flex items-center text-primary font-bold text-sm group-hover:translate-x-2 transition-transform duration-300 cursor-pointer">
+                Saber mais <span className="ml-2">â†’</span>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+
+
+
+==================================================
+CAMINHO: src\components\layout\Navbar.tsx
+==================================================
+
+"use client";
+
+import Link from "next/link";
+
+export default function Navbar() {
+  return (
+      <header className="border-b">
+        <nav className="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+          <Link href="/">Start Nexus</Link>
+
+          <div className="flex gap-6">
+            <Link href="/#inicio">InÃ­cio</Link>
+
+            <Link href="/#quem-somos">
+              Quem Somos
+            </Link>
+
+            <Link href="/#solucoes">
+              SoluÃ§Ãµes
+            </Link>
+
+            <Link href="/#marketplace-preview">
+              Marketplace
+            </Link>
+          </div>
+        </nav>
+      </header>
+  );
+}
+
+
+
+==================================================
+CAMINHO: src\lib\supabaseClient.ts
+==================================================
+
+import { createBrowserClient } from '@supabase/ssr'
+
+export const createClient = () =>
+  createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
+
+// Mantendo exportaÃ§Ã£o direta para compatibilidade legada se necessÃ¡rio
+export const supabase = createClient()
+
+
+
+
+==================================================
+CAMINHO: src\server\repositories\userRepository.ts
+==================================================
+
+import { supabase } from "@/lib/supabaseClient";
+
+export class UserRepository {
+    async createUser(user: {
+        id: string;
+        name: string;
+        email: string;
+        role: string;
+    }) {
+        const { error } = await supabase
+            .from("users")
+            .insert([user]);
+
+        if (error) {
+            throw new Error(error.message);
+        }
+    }
+}
+
+
+
+==================================================
+CAMINHO: src\server\services\authService.ts
+==================================================
+
+import { supabase } from "@/lib/supabaseClient";
+
+export class AuthService {
+
+    // =========================
+    // REGISTER CLIENT
+    // =========================
+    async registerClient(data: {
+        email: string;
+        password: string;
+        firstName: string;
+        lastName: string;
+        address: string;
+    }) {
+
+        const { data: authData, error } = await supabase.auth.signUp({
+            email: data.email,
+            password: data.password,
+        });
+
+        if (error) throw new Error(error.message);
+
+        const userId = authData.user!.id;
+
+        // tabela users
+        await supabase.from("users").insert({
+            id: userId,
+            email: data.email,
+            role: "client",
+        });
+
+        // tabela clients
+        await supabase.from("clients").insert({
+            id: userId,
+            first_name: data.firstName,
+            last_name: data.lastName,
+            address: data.address,
+        });
+
+        return userId;
+    }
+
+
+    // =========================
+    // REGISTER ASSISTANCE
+    // =========================
+    async registerAssistance(data: {
+        email: string;
+        password: string;
+        businessName: string;
+        description: string;
+        cnpj?: string;
+        address: string;
+        experience: number;
+        isJunior: boolean;
+        services: string[];
+        logo: File | null;
+        workspacePhotos: File[];
+        certificates: File[];
+    }) {
+
+        const { data: authData, error } = await supabase.auth.signUp({
+            email: data.email,
+            password: data.password,
+        });
+
+        if (error) throw new Error(error.message);
+
+        const userId = authData.user!.id;
+
+        await supabase.from("users").insert({
+            id: userId,
+            email: data.email,
+            role: "assistance",
+        });
+
+        await supabase.from("assistances").insert({
+            id: userId,
+            business_name: data.businessName,
+            description: data.description,
+            cnpj: data.cnpj,
+            address: data.address,
+            experience_years: data.experience,
+            is_junior: data.isJunior,
+        });
+
+        return userId;
+    }
+
+    // =========================
+    // LOGIN
+    // =========================
+    async login(email: string, password: string) {
+        const { data, error } = await supabase.auth.signInWithPassword({
+            email,
+            password,
+        });
+
+        if (error) throw new Error(error.message);
+        return data.user;
+    }
+}
+
+
+
+==================================================
+CAMINHO: src\proxy.ts
+==================================================
+
+import { createServerClient, type CookieOptions } from '@supabase/ssr'
+import { NextResponse, type NextRequest } from 'next/server'
+
+export default async function proxy(request: NextRequest) {
+  let response = NextResponse.next({
+    request: {
+      headers: request.headers,
+    },
+  })
+
+  const supabase = createServerClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    {
+      cookies: {
+        get(name: string) {
+          return request.cookies.get(name)?.value
+        },
+        set(name: string, value: string, options: CookieOptions) {
+          request.cookies.set({
+            name,
+            value,
+            ...options,
+          })
+          response = NextResponse.next({
+            request: {
+              headers: request.headers,
+            },
+          })
+          response.cookies.set({
+            name,
+            value,
+            ...options,
+          })
+        },
+        remove(name: string, options: CookieOptions) {
+          request.cookies.set({
+            name,
+            value: '',
+            ...options,
+          })
+          response = NextResponse.next({
+            request: {
+              headers: request.headers,
+            },
+          })
+          response.cookies.set({
+            name,
+            value: '',
+            ...options,
+          })
+        },
+      },
+    }
+  )
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser()
+
+  const url = request.nextUrl.clone();
+
+  // Protect private routes
+  const isDashboardRoute = url.pathname.startsWith('/b2c');
+  const isAssistanceRoute = url.pathname.startsWith('/b2b');
+  const isAdminRoute = url.pathname.startsWith('/admin');
+
+  if (isDashboardRoute || isAssistanceRoute || isAdminRoute) {
+    if (!user) {
+      url.pathname = '/'; // Redirect to home if not logged in
+      return NextResponse.redirect(url);
+    }
+  }
+
+  return response
+}
+
+export const config = {
+  matcher: ['/b2c/:path*', '/b2b/:path*', '/admin/:path*'],
+};
+
+
+
+
+==================================================
+CAMINHO: estrutura_projeto.txt
+==================================================
+
+
+
+
+==================================================
+CAMINHO: jsconfig.json
+==================================================
+
+{
+  "include": [
+    "tailwind.config.js",
+    "postcss.config.js",
+    "next.config.mjs"
+  ]
+}
+
+
+
+==================================================
+CAMINHO: next-env.d.ts
+==================================================
+
+/// <reference types="next" />
+/// <reference types="next/image-types/global" />
+import "./.next/dev/types/routes.d.ts";
+
+// NOTE: This file should not be edited
+// see https://nextjs.org/docs/app/api-reference/config/typescript for more information.
+
+
+
+
+==================================================
+CAMINHO: next.config.ts
+==================================================
+
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+    reactStrictMode: true,
+};
+
+export default nextConfig;
+
+
+
+==================================================
+CAMINHO: package-lock.json
+==================================================
+
 {
   "name": "startnexus-next",
   "version": "0.1.0",
@@ -6802,3 +9643,100 @@
     }
   }
 }
+
+
+
+
+==================================================
+CAMINHO: package.json
+==================================================
+
+{
+  "name": "startnexus-next",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.103.3",
+    "framer-motion": "^12.38.0",
+    "next": "16.2.4",
+    "react": "^19.2.5",
+    "react-dom": "^19.2.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "autoprefixer": "^10.5.0",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.4",
+    "postcss": "^8.5.10",
+    "tailwindcss": "^3.4.19",
+    "typescript": "^5"
+  }
+}
+
+
+
+
+==================================================
+CAMINHO: tsconfig.json
+==================================================
+
+{
+  "compilerOptions": {
+    "target": "ES2017",
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
+    "allowJs": true,
+    "skipLibCheck": true,
+    "strict": false,
+    "noEmit": true,
+    "incremental": true,
+    "module": "esnext",
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "jsx": "react-jsx",
+    "baseUrl": ".",
+    "paths": {
+      "@/*": [
+        "src/*"
+      ]
+    },
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ]
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.js",
+    "**/*.jsx",
+    "tailwind.config.ts",
+    "postcss.config.js",
+    ".next/types/**/*.ts",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    ".next"
+  ]
+}
+
+
+
+

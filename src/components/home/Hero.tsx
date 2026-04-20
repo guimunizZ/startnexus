@@ -6,9 +6,9 @@ import AuthCard from "./AuthCard";
 
 export default function Hero() {
   const pillars = [
-    { icon: "💻", title: "Educação Tecnológica", desc: "Cursos gratuitos de Assistente de TI" },
-    { icon: "♻️", title: "Sustentabilidade", desc: "Coleta e reaproveitamento de e-lixo" },
-    { icon: "🚀", title: "Inclusão Profissional", desc: "Novas oportunidades para todos" },
+    { icon: "💻", title: "Educação", desc: "Cursos gratuitos" },
+    { icon: "♻️", title: "Sustentabilidade", desc: "Coleta de e-lixo" },
+    { icon: "🚀", title: "Inclusão", desc: "Oportunidades" },
   ];
 
   return (
@@ -27,14 +27,14 @@ export default function Hero() {
             className="space-y-10"
           >
             <div className="space-y-6">
-              <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter text-dark leading-[0.9]">
+              <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter text-dark leading-[0.95]">
                 Transformamos vidas com <br />
                 <span className="text-gradient">tecnologia,</span> <br />
                 <span className="text-gradient">educação</span> e <br />
                 <span className="text-gradient">sustentabilidade</span>
               </h1>
               <p className="text-xl text-dark/60 font-medium max-w-xl leading-relaxed">
-                A Start Nexus capacita pessoas de todas as idades para atuar na área de tecnologia enquanto transforma lixo eletrônico em oportunidades reais.
+                Capacitamos jovens, adultos e idosos para o mercado digital enquanto transformamos lixo eletrônico em oportunidades reais.
               </p>
             </div>
 
@@ -46,7 +46,7 @@ export default function Hero() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.5, delay: 0.3 + i * 0.1 }}
-                  className="bg-gray/50 border border-gray p-5 rounded-2xl hover:border-primary/30 transition-colors group"
+                  className="bg-gray/30 border border-gray/50 p-5 rounded-2xl hover:border-primary/30 transition-colors group"
                 >
                   <div className="text-3xl mb-3 group-hover:scale-110 transition-transform duration-300">{p.icon}</div>
                   <h4 className="text-xs font-extrabold text-dark uppercase tracking-wider mb-1">{p.title}</h4>
@@ -60,12 +60,12 @@ export default function Hero() {
                 Conheça a ONG
               </button>
               <button className="bg-white text-dark border border-gray px-8 py-4 rounded-full font-bold shadow-lg hover:bg-gray transition-colors active:scale-95">
-                Ver Soluções
+                Explorar Marketplace
               </button>
             </div>
           </motion.div>
 
-          {/* Right Column: Auth Modal */}
+          {/* Right Column: Auth Card */}
           <div className="relative">
             {/* Background elements behind card */}
             <div className="absolute inset-0 bg-primary/10 blur-[100px] rounded-full scale-75 animate-pulse"></div>

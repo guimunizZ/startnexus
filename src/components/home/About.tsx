@@ -40,7 +40,7 @@ export default function About() {
             </div>
 
             <div className="grid grid-cols-2 gap-8 pt-6">
-              {stats.map((stat, i) => (
+              {stats.map((stat) => (
                 <div key={stat.label} className="space-y-1">
                   <p className="text-4xl font-extrabold text-dark tracking-tighter">{stat.value}</p>
                   <p className="text-xs font-bold text-dark/40 uppercase tracking-widest">{stat.label}</p>
@@ -59,7 +59,7 @@ export default function About() {
             {/* Mission, Vision, Values Cards */}
             <div className="bg-white p-8 rounded-[32px] shadow-xl shadow-dark/5 border border-gray hover:border-primary/20 transition-all duration-500 group">
               <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">🎯</div>
-              <h4 className="text-xl font-extrabold text-dark mb-3">Nossa Missão</h4>
+              <h4 className="text-xl font-bold text-dark mb-3">Nossa Missão</h4>
               <p className="text-dark/60 font-medium text-sm leading-relaxed">
                 Promover a inclusão social via educação tecnológica de qualidade e o reaproveitamento inteligente de resíduos eletrônicos.
               </p>
@@ -68,14 +68,14 @@ export default function About() {
             <div className="grid sm:grid-cols-2 gap-6">
               <div className="bg-white p-8 rounded-[32px] shadow-xl shadow-dark/5 border border-gray hover:border-secondary/20 transition-all duration-500 group">
                 <div className="w-12 h-12 bg-secondary/10 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">👁️</div>
-                <h4 className="text-xl font-extrabold text-dark mb-3">Nossa Visão</h4>
+                <h4 className="text-xl font-bold text-dark mb-3">Nossa Visão</h4>
                 <p className="text-dark/60 font-medium text-sm leading-relaxed">
                   Ser referência nacional em formação tecnológica inclusiva e economia circular até 2028.
                 </p>
               </div>
               <div className="bg-dark p-8 rounded-[32px] shadow-2xl shadow-dark/20 border border-dark group">
                 <div className="w-12 h-12 bg-white/10 rounded-2xl flex items-center justify-center text-2xl mb-6 group-hover:scale-110 transition-transform duration-300">💎</div>
-                <h4 className="text-xl font-extrabold text-white mb-3">Nossos Valores</h4>
+                <h4 className="text-xl font-bold text-white mb-3">Nossos Valores</h4>
                 <ul className="text-white/60 font-bold text-[10px] uppercase tracking-widest grid grid-cols-2 gap-2">
                   <li>• Inclusão</li>
                   <li>• Sustentabilidade</li>
