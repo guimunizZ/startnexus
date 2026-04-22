@@ -2565,7 +2565,7 @@ export const supabase = createClient()
 
 
 ==================================================
-CAMINHO: src\server\repositories\userRepository.ts
+//: src\server\repositories\userRepository.ts
 ==================================================
 
 import { supabase } from "@/lib/supabaseClient";

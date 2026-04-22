@@ -1,3 +1,4 @@
+/* src/app/globals.css */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -6,51 +7,70 @@
   --font-inter: Arial, sans-serif;
   --font-montserrat: Arial, sans-serif;
 
-  --background: #f8fafc;
-  --foreground: #111827;
-  --primary: #10b981;
-  --secondary: #34d399;
-  --dark: #0f172a;
-  --gray: #e5e7eb;
+  --background: #07111f;
+  --foreground: #f8fafc;
+  --surface: #0f1b31;
+  --muted: #94a3b8;
+
+  --primary: #00f5a0;
+  --secondary: #2f6bff;
+
+  --input-bg: #ffffff;
+  --input-text: #0f172a;
+  --input-placeholder: #94a3b8;
 }
 
-/* Base */
 html,
 body {
   width: 100%;
   min-height: 100%;
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
+  background:
+          radial-gradient(circle at top left, rgba(0,245,160,.06), transparent 30%),
+          radial-gradient(circle at top right, rgba(47,107,255,.06), transparent 30%),
+          var(--background);
   color: var(--foreground);
   font-family: var(--font-inter), Arial, Helvetica, sans-serif;
 }
 
-/* Headings */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1,h2,h3,h4,h5,h6 {
   font-family: var(--font-montserrat), Arial, Helvetica, sans-serif;
 }
 
-/* Links */
 a {
   text-decoration: none;
   color: inherit;
 }
 
-/* Botões */
 button {
   cursor: pointer;
 }
 
-/* Classes utilitárias extras */
+input,
+textarea,
+select {
+  background: var(--input-bg);
+  color: var(--input-text);
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: var(--input-placeholder);
+}
+
 .text-gradient {
-  background: linear-gradient(to right, #10b981, #34d399);
+  background: linear-gradient(90deg, var(--primary), var(--secondary));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+}
+
+.bg-gradient-brand {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+}
+
+.shadow-glow-primary {
+  box-shadow: 0 0 24px rgba(0,245,160,.28);
 }
