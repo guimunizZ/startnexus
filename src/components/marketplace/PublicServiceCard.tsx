@@ -30,7 +30,7 @@ export default function PublicServiceCard({ service }: Props) {
     };
 
     const Icon =
-        icons[service.icon as keyof typeof icons] || Monitor;
+        icons[service.icon as keyof typeof icons] || Wrench;
 
     return (
         <div className="rounded-[28px] border border-slate-800 bg-slate-900 p-6 hover:border-emerald-500/40 transition-all">
@@ -41,7 +41,10 @@ export default function PublicServiceCard({ service }: Props) {
                     </div>
 
                     <div>
-                        <h3 className="text-xl font-black">{service.title}</h3>
+                        <h3 className="text-xl font-black">
+                            {service.title}
+                        </h3>
+
                         <p className="text-slate-400 text-sm mt-1 max-w-md">
                             {service.description}
                         </p>
@@ -50,8 +53,11 @@ export default function PublicServiceCard({ service }: Props) {
 
                 <div className="text-right">
                     <p className="text-2xl font-black text-emerald-400">
-                        R$ {service.price}
+                        {service.price > 0
+                            ? `R$ ${service.price}`
+                            : "Sob consulta"}
                     </p>
+
                     <p className="text-sm text-slate-400">
                         {service.time}
                     </p>

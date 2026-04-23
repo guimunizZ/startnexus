@@ -1,154 +1,139 @@
 "use client";
 
-import React from "react";
 import { useRouter } from "next/navigation";
 
-interface AssistanceProfileProps {
-  name: string;
-  rating: number;
-  servicesCount: number;
-  isVerified: boolean;
-  isJunior?: boolean;
-  specialties: string[];
+interface Props {
+    id: string;
+    name?: string | null;
+    address?: string | null;
+    rating?: number | null;
+    servicesCount?: number | null;
+    totalReviews?: number | null;
+    isVerified?: boolean;
+    isJunior?: boolean | null;
+    specialties?: string[] | null;
 }
 
 export default function AssistanceProfile({
-                                            name,
-                                            rating,
-                                            servicesCount,
-                                            isVerified,
-                                            isJunior,
-                                            specialties,
-                                          }: AssistanceProfileProps) {
-  const router = useRouter();
+                                              id,
+                                              name,
+                                              address,
+                                              rating,
+                                              servicesCount,
+                                              totalReviews,
+                                              isVerified,
+                                              isJunior,
+                                              specialties,
+                                          }: Props) {
+    const router = useRouter();
 
-  return (
-      <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl relative overflow-hidden group">
-        {/* Background Decor */}
-        <div
-            className={`absolute top-0 right-0 w-32 h-32 blur-3xl opacity-5 transition-opacity group-hover:opacity-10 ${
-                isJunior ? "bg-blue-500" : "bg-emerald-500"
-            }`}
-        />
+    const safeName = name?.trim() || "Assistência Técnica";
+    const safeAddress =
+        address?.trim() || "Endereço não informado";
 
-        <div className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
-          {/* Profile Image */}
-          <div className="relative">
-            <div
-                className={`w-24 h-24 rounded-2xl flex items-center justify-center text-4xl font-extrabold text-white shadow-inner ${
-                    isJunior ? "bg-blue-600" : "bg-emerald-600"
-                }`}
-            >
-              {name.charAt(0)}
-            </div>
+    const safeRating =
+        typeof rating === "number" ? rating : 0;
 
-            {isVerified && (
-                <div className="absolute -bottom-2 -right-2 bg-white dark:bg-slate-950 p-1.5 rounded-full shadow-lg border-2 border-slate-900">
-                  <span className="text-emerald-500 text-xl block">✅</span>
-                </div>
-            )}
-          </div>
+    const safeServicesCount =
+        typeof servicesCount === "number"
+            ? servicesCount
+            : 0;
 
-          {/* Info */}
-          <div className="flex-1 space-y-4 text-center md:text-left">
-            <div className="space-y-1">
-              <div className="flex flex-col md:flex-row items-center md:items-baseline space-y-2 md:space-y-0 md:space-x-3">
-                <h3 className="text-2xl font-extrabold text-white tracking-tight">
-                  {name}
-                </h3>
+    const safeTotalReviews =
+        typeof totalReviews === "number"
+            ? totalReviews
+            : 0;
 
-                {isJunior && (
-                    <span className="bg-blue-500/10 text-blue-500 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full border border-blue-500/20">
-                  Assistência Júnior
+    const safeSpecialties =
+        Array.isArray(specialties) &&
+        specialties.length > 0
+            ? specialties
+            : ["Assistência Técnica"];
+
+    return (
+        <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-xl hover:border-emerald-500/30 transition-all">
+            <div className="space-y-6">
+                {/* HEADER */}
+                <div className="flex items-start gap-4">
+                    <div
+                        className={`w-16 h-16 rounded-2xl flex items-center justify-center text-2xl font-black text-white shrink-0 ${
+                            isJunior
+                                ? "bg-blue-600"
+                                : "bg-emerald-600"
+                        }`}
+                    >
+                        {safeName.charAt(0).toUpperCase()}
+                    </div>
+
+                    <div className="flex-1 min-w-0">
+                        <div className="flex flex-wrap items-center gap-2">
+                            <h3 className="text-2xl font-black text-white break-words">
+                                {safeName}
+                            </h3>
+
+                            {isVerified && (
+                                <span className="text-emerald-400 text-sm">
+                  ✔
                 </span>
-                )}
-              </div>
+                            )}
 
-              <div className="flex items-center justify-center md:justify-start space-x-2 text-yellow-500">
-                <div className="flex">
-                  {[...Array(5)].map((_, i) => (
-                      <span
-                          key={i}
-                          className={
-                            i < Math.floor(rating)
-                                ? "text-yellow-400"
-                                : "text-slate-700 opacity-50"
-                          }
-                      >
-                    ★
-                  </span>
-                  ))}
+                            {isJunior && (
+                                <span className="px-2 py-1 rounded-lg bg-blue-500/10 text-blue-400 text-[10px] font-bold uppercase tracking-wider border border-blue-500/20">
+                  Júnior
+                </span>
+                            )}
+                        </div>
+
+                        <p className="text-slate-400 text-sm mt-2 break-words">
+                            {safeAddress}
+                        </p>
+                    </div>
                 </div>
 
-                <span className="text-white font-bold text-sm">
-                {rating.toFixed(1)}
-              </span>
+                {/* NOTA */}
+                <div className="flex items-center gap-3">
+                    <div className="text-yellow-400 text-lg">
+                        ★★★★★
+                    </div>
 
-                <span className="text-slate-500 text-xs">
-                • {servicesCount} serviços realizados
-              </span>
-              </div>
-            </div>
+                    <div className="text-white font-bold">
+                        {safeRating > 0
+                            ? safeRating.toFixed(1)
+                            : "Novo"}
+                    </div>
 
-            {/* Tags */}
-            <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-              {specialties.map((spec, i) => (
-                  <span
-                      key={i}
-                      className="bg-slate-800 text-slate-300 text-[10px] font-bold px-3 py-1 rounded-lg border border-slate-700/50"
-                  >
-                {spec}
-              </span>
-              ))}
-            </div>
-
-            {/* Buttons */}
-            <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row gap-3">
-              <button
-                  onClick={() => router.push("/b2c/assistance/1")}
-                  className="flex-1 bg-white text-slate-900 py-3 rounded-xl font-bold text-sm hover:bg-slate-200 transition-colors shadow-lg active:scale-95"
-              >
-                Ver Perfil Completo
-              </button>
-
-              <button
-                  className={`flex-1 border py-3 rounded-xl font-bold text-sm transition-all active:scale-95 ${
-                      isJunior
-                          ? "border-blue-500/50 text-blue-500 hover:bg-blue-500/10"
-                          : "border-emerald-500/50 text-emerald-500 hover:bg-emerald-500/10"
-                  }`}
-              >
-                Solicitar Orçamento
-              </button>
-            </div>
-          </div>
-        </div>
-
-        {/* Reviews */}
-        <div className="mt-8 bg-slate-950/50 p-5 rounded-2xl border border-slate-800/50">
-          <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-4 opacity-70">
-            Avaliações Recentes
-          </h4>
-
-          <div className="space-y-4">
-            <div className="space-y-1.5">
-              <div className="flex items-center space-x-2">
-                <div className="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center text-[8px]">
-                  👤
+                    <div className="text-slate-400 text-sm">
+                        ({safeTotalReviews})
+                    </div>
                 </div>
 
-                <p className="text-xs text-white font-bold">Ricardo M.</p>
+                {/* SERVIÇOS */}
+                <p className="text-slate-400 text-sm">
+                    {safeServicesCount} serviços disponíveis
+                </p>
 
-                <div className="flex text-[8px] text-yellow-500">★★★★★</div>
-              </div>
+                {/* TAGS */}
+                <div className="flex flex-wrap gap-2">
+                    {safeSpecialties.map((item, index) => (
+                        <span
+                            key={`${item}-${index}`}
+                            className="px-3 py-1 bg-slate-800 border border-slate-700 rounded-xl text-xs text-slate-300"
+                        >
+              {item}
+            </span>
+                    ))}
+                </div>
 
-              <p className="text-[11px] text-slate-500 leading-relaxed">
-                "Excelente serviço, rápido e honesto. Meu celular ficou como
-                novo!"
-              </p>
+                {/* BOTÃO */}
+                <button
+                    onClick={() =>
+                        router.push(`/b2c/assistance/${id}`)
+                    }
+                    className="w-full h-12 rounded-2xl bg-white text-slate-950 font-black hover:bg-slate-200 transition-colors active:scale-[0.98]"
+                >
+                    Ver Perfil Completo
+                </button>
             </div>
-          </div>
         </div>
-      </div>
-  );
+    );
 }
