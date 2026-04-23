@@ -1,18 +1,20 @@
+// src/components/dashboard/assistance/Sidebar.tsx
+
 "use client";
 
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { 
-  LayoutDashboard, 
-  ShoppingBag, 
-  Calendar, 
-  Wrench, 
-  User, 
-  Star, 
-  DollarSign, 
-  Settings, 
-  LogOut 
+import {
+  LayoutDashboard,
+  ShoppingBag,
+  Calendar,
+  Wrench,
+  User,
+  Star,
+  DollarSign,
+  Settings,
+  LogOut,
 } from "lucide-react";
 import { AuthService } from "@/client/services/authService";
 
@@ -35,53 +37,62 @@ export default function Sidebar() {
   const handleLogout = async () => {
     try {
       await authService.logout();
-    } catch (err) {
-      console.error("Erro ao sair:", err);
+    } catch (error) {
+      console.error(error);
     } finally {
       window.location.href = "/";
     }
   };
 
   return (
-    <aside className="w-64 bg-dark min-h-screen fixed left-0 top-0 flex flex-col z-50">
-      <div className="p-8">
-        <Link href="/" className="flex items-center gap-2">
-          <div className="w-8 h-8 bg-white rounded-lg flex items-center justify-center">
-            <div className="w-4 h-4 bg-primary rounded-sm" />
-          </div>
-          <span className="font-extrabold text-xl tracking-tighter text-white">STARTNEXUS</span>
-        </Link>
-      </div>
+      <aside className="w-64 bg-[#07111d] min-h-screen fixed left-0 top-0 flex flex-col z-50 border-r border-white/5">
+        <div className="p-8">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
+              <div className="w-4 h-4 bg-slate-900 rounded-sm" />
+            </div>
 
-      <nav className="flex-1 px-4 space-y-1">
-        {menuItems.map((item) => {
-          const isActive = pathname === item.href;
-          return (
-            <Link
-              key={item.label}
-              href={item.href}
-              className={`flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm transition-all group ${
-                isActive 
-                  ? "bg-primary text-dark shadow-lg shadow-primary/20" 
-                  : "text-white/50 hover:text-white hover:bg-white/5"
-              }`}
-            >
-              <item.icon size={20} className={isActive ? "text-dark" : "text-white/30 group-hover:text-white/60"} />
-              {item.label}
-            </Link>
-          );
-        })}
-      </nav>
+            <div>
+              <p className="text-white font-black text-lg tracking-tight">
+                StartNexus
+              </p>
+              <p className="text-white/40 text-[10px] font-bold uppercase">
+                Painel B2B
+              </p>
+            </div>
+          </Link>
+        </div>
 
-      <div className="p-4 border-t border-white/5">
-        <button
-          onClick={handleLogout}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold text-sm text-red-400 hover:bg-red-400/10 transition-all"
-        >
-          <LogOut size={20} />
-          Sair
-        </button>
-      </div>
-    </aside>
+        <nav className="flex-1 px-4 space-y-2">
+          {menuItems.map((item) => {
+            const active = pathname === item.href;
+
+            return (
+                <Link
+                    key={item.label}
+                    href={item.href}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-2xl font-bold text-sm transition ${
+                        active
+                            ? "bg-primary text-slate-900"
+                            : "text-white/55 hover:text-white hover:bg-white/5"
+                    }`}
+                >
+                  <item.icon size={18} />
+                  {item.label}
+                </Link>
+            );
+          })}
+        </nav>
+
+        <div className="p-4 border-t border-white/5">
+          <button
+              onClick={handleLogout}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-red-400 hover:bg-red-500/10 font-bold text-sm transition"
+          >
+            <LogOut size={18} />
+            Sair
+          </button>
+        </div>
+      </aside>
   );
 }

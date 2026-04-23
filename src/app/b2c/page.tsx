@@ -60,13 +60,19 @@ export default function B2CPage() {
         <nav className="border-b border-slate-800 bg-slate-950 sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-8 h-24 flex items-center justify-between">
 
-            <Image
-                src="/logo-dark.png"
-                alt="StartNexus"
-                width={220}
-                height={70}
-                className="object-contain"
-            />
+            <Link
+                href="/"
+                className="flex items-center shrink-0 pt-3 brightness-125 contrast-125"
+            >
+              <Image
+                  src="/logo-dark.png"
+                  alt="StartNexus"
+                  width={200}
+                  height={78}
+                  priority
+                  className="object-contain drop-shadow-[0_0_18px_rgba(0,245,160,0.18)]"
+              />
+            </Link>
 
             <div className="flex items-center gap-5">
               <button

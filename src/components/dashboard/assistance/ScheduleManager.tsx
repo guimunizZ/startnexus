@@ -12,13 +12,6 @@ type DayItem = {
     active: boolean;
 };
 
-type ExtraState = {
-    urgent: boolean;
-    home: boolean;
-    remote: boolean;
-    pickup: boolean;
-};
-
 const DEFAULT_SCHEDULE: DayItem[] = [
     { day: "Domingo", day_of_week: 0, start: "00:00", end: "00:00", active: false },
     { day: "Segunda", day_of_week: 1, start: "08:00", end: "18:00", active: true },
@@ -30,77 +23,19 @@ const DEFAULT_SCHEDULE: DayItem[] = [
 ];
 
 export default function ScheduleManager() {
-    const [schedule, setSchedule] = useState<DayItem[]>(DEFAULT_SCHEDULE);
-
-    const [extras, setExtras] = useState<ExtraState>({
-        urgent: true,
-        home: true,
-        remote: false,
-        pickup: true,
-    });
-
+    const [schedule, setSchedule] = useState(DEFAULT_SCHEDULE);
     const [loading, setLoading] = useState(true);
     const [saving, setSaving] = useState(false);
-    const [message, setMessage] = useState("");
 
     useEffect(() => {
-        void loadSchedule(); // ✅ corrige Promise ignored
+        setLoading(false);
     }, []);
-
-    async function loadSchedule(): Promise<void> {
-        try {
-            setLoading(true);
-
-            const {
-                data: { user },
-            } = await supabase.auth.getUser();
-
-            if (!user) return;
-
-            const { data, error } = await supabase
-                .from("assistance_schedule")
-                .select("*")
-                .eq("assistance_id", user.id)
-                .order("day_of_week", { ascending: true });
-
-            if (error || !data?.length) return;
-
-            const mapped = DEFAULT_SCHEDULE.map((item) => {
-                const found = data.find((row) => row.day_of_week === item.day_of_week);
-
-                if (!found) return item;
-
-                return {
-                    ...item,
-                    start: found.start_time?.slice(0, 5) ?? item.start,
-                    end: found.end_time?.slice(0, 5) ?? item.end,
-                    active: found.is_active,
-                };
-            });
-
-            const first = data[0];
-
-            setSchedule(mapped);
-
-            setExtras({
-                urgent: first?.is_urgent ?? false,
-                home: first?.is_home_service ?? false,
-                remote: first?.is_remote_service ?? false,
-                pickup: first?.is_pickup_delivery ?? false,
-            });
-        } catch (error) {
-            console.error(error);
-            setMessage("Erro ao carregar agenda.");
-        } finally {
-            setLoading(false);
-        }
-    }
 
     function updateDay(
         index: number,
         field: keyof DayItem,
         value: string | boolean
-    ): void {
+    ) {
         setSchedule((prev) => {
             const copy = [...prev];
             copy[index] = { ...copy[index], [field]: value };
@@ -108,218 +43,104 @@ export default function ScheduleManager() {
         });
     }
 
-    async function saveSchedule(): Promise<void> {
-        try {
-            setSaving(true);
-            setMessage("");
-
-            const {
-                data: { user },
-            } = await supabase.auth.getUser();
-
-            if (!user) {
-                setMessage("Usuário não autenticado.");
-                return;
-            }
-
-            await supabase
-                .from("assistance_schedule")
-                .delete()
-                .eq("assistance_id", user.id);
-
-            const payload = schedule.map((item) => ({
-                assistance_id: user.id,
-                day_of_week: item.day_of_week,
-                start_time: item.start,
-                end_time: item.end,
-                is_active: item.active,
-                is_urgent: extras.urgent,
-                is_home_service: extras.home,
-                is_remote_service: extras.remote,
-                is_pickup_delivery: extras.pickup,
-            }));
-
-            const { error } = await supabase
-                .from("assistance_schedule")
-                .insert(payload);
-
-            if (error) {
-                setMessage(error.message);
-                return;
-            }
-
-            setMessage("Agenda salva com sucesso.");
-        } catch (error) {
-            console.error(error);
-            setMessage("Erro ao salvar agenda.");
-        } finally {
-            setSaving(false);
-        }
-    }
-
     if (loading) {
         return (
-            <div className="bg-white rounded-[32px] border border-[rgba(255,255,255,0.08)] shadow-sm p-8 flex items-center justify-center min-h-[320px]">
+            <div className="bg-white rounded-[32px] p-8 min-h-[280px] flex items-center justify-center">
                 <Loader2 className="animate-spin text-primary" size={28} />
             </div>
         );
     }
 
     return (
-        <div className="bg-white rounded-[32px] border border-[rgba(255,255,255,0.08)] shadow-sm p-8 space-y-8">
-            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
+        <div className="bg-white rounded-[32px] p-6 border border-slate-200 shadow-sm overflow-hidden">
+            {/* TOPO */}
+            <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between mb-8">
                 <div>
-                    <h3 className="text-xl font-black text-slate-900 tracking-tighter">
+                    <h2 className="text-3xl font-black text-slate-900 leading-tight">
                         Agenda Operacional
-                    </h3>
+                    </h2>
 
-                    <p className="text-sm text-slate-500 font-semibold">
+                    <p className="mt-2 text-slate-500 text-base font-semibold">
                         Configure horários e formas de atendimento.
                     </p>
                 </div>
 
-                <button
-                    type="button"
-                    onClick={() => void saveSchedule()}
-                    disabled={saving}
-                    className="px-6 py-3 bg-slate-900 text-white rounded-2xl font-bold text-sm hover:bg-slate-800 transition disabled:opacity-60 flex items-center gap-2"
-                >
+                <button className="h-12 px-5 rounded-2xl bg-slate-950 text-white text-sm font-bold flex items-center gap-2 shrink-0 self-start">
                     {saving ? (
-                        <Loader2 size={16} className="animate-spin" />
+                        <Loader2 size={15} className="animate-spin" />
                     ) : (
-                        <Save size={16} />
+                        <Save size={15} />
                     )}
-
-                    {saving ? "Salvando..." : "Salvar Agenda"}
+                    Salvar
                 </button>
             </div>
 
-            <div className="space-y-4">
+            {/* LINHAS */}
+            <div className="space-y-3">
                 {schedule.map((item, i) => (
                     <div
                         key={item.day}
-                        className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 p-5 rounded-2xl border border-gray bg-gray/20"
+                        className="rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3"
                     >
-                        <div className="flex items-center gap-4">
+                        {/* GRID ENCAIXADO */}
+                        <div className="grid grid-cols-[44px_1fr_88px_22px_88px] gap-2 items-center">
+                            {/* STATUS */}
                             <button
-                                type="button"
-                                onClick={() => updateDay(i, "active", !item.active)}
-                                className={`w-10 h-10 rounded-xl flex items-center justify-center transition ${
+                                onClick={() =>
+                                    updateDay(i, "active", !item.active)
+                                }
+                                className={`w-11 h-11 rounded-2xl flex items-center justify-center ${
                                     item.active
-                                        ? "bg-primary/20 text-primary"
+                                        ? "bg-primary/15 text-primary"
                                         : "bg-slate-200 text-slate-400"
                                 }`}
                             >
-                                {item.active ? <Check size={18} /> : <X size={18} />}
+                                {item.active ? (
+                                    <Check size={16} />
+                                ) : (
+                                    <X size={16} />
+                                )}
                             </button>
 
+                            {/* DIA */}
                             <span
-                                className={`font-bold ${
-                                    item.active ? "text-slate-900" : "text-slate-400"
+                                className={`text-base font-bold truncate ${
+                                    item.active
+                                        ? "text-slate-900"
+                                        : "text-slate-400"
                                 }`}
                             >
                 {item.day}
               </span>
-                        </div>
 
-                        <div className="flex items-center gap-3">
+                            {/* HORA INICIO */}
                             <input
                                 type="time"
                                 value={item.start}
-                                disabled={!item.active}
-                                onChange={(e) => updateDay(i, "start", e.target.value)}
-                                className="border border-slate-200 rounded-xl px-3 py-2 text-sm font-bold text-slate-900 disabled:opacity-50"
+                                onChange={(e) =>
+                                    updateDay(i, "start", e.target.value)
+                                }
+                                className="w-full h-10 rounded-xl border border-slate-200 bg-white px-2 text-xs font-bold text-slate-900"
                             />
 
-                            <span className="text-slate-500 text-sm font-bold">até</span>
+                            {/* ATE */}
+                            <span className="text-[11px] font-bold text-slate-500 text-center">
+                até
+              </span>
 
+                            {/* HORA FIM */}
                             <input
                                 type="time"
                                 value={item.end}
-                                disabled={!item.active}
-                                onChange={(e) => updateDay(i, "end", e.target.value)}
-                                className="border border-slate-200 rounded-xl px-3 py-2 text-sm font-bold text-slate-900 disabled:opacity-50"
+                                onChange={(e) =>
+                                    updateDay(i, "end", e.target.value)
+                                }
+                                className="w-full h-10 rounded-xl border border-slate-200 bg-white px-2 text-xs font-bold text-slate-900"
                             />
                         </div>
                     </div>
                 ))}
             </div>
-
-            <div>
-                <h4 className="font-black text-slate-900 mb-4">Recursos Disponíveis</h4>
-
-                <div className="grid sm:grid-cols-2 gap-4">
-                    <ToggleCard
-                        label="Atendimento urgente"
-                        active={extras.urgent}
-                        onClick={() =>
-                            setExtras((p) => ({ ...p, urgent: !p.urgent }))
-                        }
-                    />
-
-                    <ToggleCard
-                        label="Atendimento em domicílio"
-                        active={extras.home}
-                        onClick={() =>
-                            setExtras((p) => ({ ...p, home: !p.home }))
-                        }
-                    />
-
-                    <ToggleCard
-                        label="Atendimento remoto"
-                        active={extras.remote}
-                        onClick={() =>
-                            setExtras((p) => ({ ...p, remote: !p.remote }))
-                        }
-                    />
-
-                    <ToggleCard
-                        label="Retirada e entrega"
-                        active={extras.pickup}
-                        onClick={() =>
-                            setExtras((p) => ({ ...p, pickup: !p.pickup }))
-                        }
-                    />
-                </div>
-            </div>
-
-            {message && (
-                <div className="rounded-2xl px-4 py-3 bg-primary/10 text-primary font-bold text-sm">
-                    {message}
-                </div>
-            )}
         </div>
-    );
-}
-
-function ToggleCard({
-                        label,
-                        active,
-                        onClick,
-                    }: {
-    label: string;
-    active: boolean;
-    onClick: () => void;
-}) {
-    return (
-        <button
-            type="button"
-            onClick={onClick}
-            className="p-4 rounded-2xl border border-slate-200 flex items-center justify-between hover:border-primary/40 transition bg-white"
-        >
-            <span className="text-sm font-bold text-slate-900">{label}</span>
-
-            <div
-                className={`w-11 h-6 rounded-full relative transition ${
-                    active ? "bg-primary" : "bg-slate-300"
-                }`}
-            >
-                <div
-                    className={`absolute top-1 w-4 h-4 bg-white rounded-full transition-all ${
-                        active ? "right-1" : "left-1"
-                    }`}
-                />
-            </div>
-        </button>
     );
 }
