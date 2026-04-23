@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, type ChangeEvent } from "react";
-import { AuthService } from "@/server/services/authService";
+import { AuthService } from "@/services/authService";
 
 const authService = new AuthService();
 

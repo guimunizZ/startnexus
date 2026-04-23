@@ -11,7 +11,7 @@ import ScheduleManager from "@/components/dashboard/assistance/ScheduleManager";
 import ServicesManager from "@/components/dashboard/assistance/ServicesManager";
 import CompletionCard from "@/components/dashboard/assistance/CompletionCard";
 
-import { AuthService } from "@/client/services/authService";
+import { AuthService } from "@/services/authService";
 
 const authService = new AuthService();
 

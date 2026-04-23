@@ -4,7 +4,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import { AuthService } from "@/server/services/authService";
+import { AuthService } from "@/services/authService";
 
 export default function AuthCard() {
   const router = useRouter();

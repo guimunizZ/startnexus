@@ -13,7 +13,7 @@ import Sidebar from "@/components/dashboard/assistance/Sidebar";
 import Header from "@/components/dashboard/assistance/Header";
 import ServicesManager from "@/components/dashboard/assistance/ServicesManager";
 
-import { AuthService } from "@/client/services/authService";
+import { AuthService } from "@/services/authService";
 
 const authService = new AuthService();
 

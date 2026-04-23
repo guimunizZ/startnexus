@@ -1,0 +1,1785 @@
+
+==================================================
+ARQUIVO: src/app/b2c/page.tsx
+==================================================
+
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import Image from "next/image";
+import CollectionArea from "@/components/dashboard/CollectionArea";
+import AssistanceProfile from "@/components/dashboard/AssistanceProfile";
+import { AuthService } from "@/services/authService";
+
+const authService = new AuthService();
+
+export default function B2CPage() {
+  const router = useRouter();
+
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    const init = async (): Promise<void> => {
+      try {
+        const user = await authService.getCurrentUser();
+
+        if (!user) {
+          router.replace("/");
+          return;
+        }
+
+        const role = await authService.getUserRole();
+
+        if (role !== "client") {
+          router.replace("/b2b");
+          return;
+        }
+      } catch (error) {
+        console.error(error);
+        router.replace("/");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    void init();
+  }, [router]);
+
+  const handleLogout = async (): Promise<void> => {
+    await authService.logout();
+    window.location.href = "/";
+  };
+
+  if (loading) {
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-slate-950">
+          <div className="h-12 w-12 rounded-full border-b-2 border-emerald-500 animate-spin" />
+        </div>
+    );
+  }
+
+  return (
+      <div className="min-h-screen bg-slate-950 text-white">
+        <nav className="border-b border-slate-800 bg-slate-950 sticky top-0 z-50">
+          <div className="max-w-7xl mx-auto px-8 h-24 flex items-center justify-between">
+
+            <Link
+                href="/"
+                className="flex items-center shrink-0 pt-3 brightness-125 contrast-125"
+            >
+              <Image
+                  src="/logo-dark.png"
+                  alt="StartNexus"
+                  width={200}
+                  height={78}
+                  priority
+                  className="object-contain drop-shadow-[0_0_18px_rgba(0,245,160,0.18)]"
+              />
+            </Link>
+
+            <div className="flex items-center gap-5">
+              <button
+                  onClick={handleLogout}
+                  className="text-slate-300 font-bold text-lg"
+              >
+                Sair
+              </button>
+
+              <button className="px-7 py-3 rounded-2xl bg-emerald-500 hover:bg-emerald-600 font-bold text-lg">
+                Minha Conta
+              </button>
+            </div>
+          </div>
+        </nav>
+
+        <main className="max-w-7xl mx-auto px-6 py-14">
+          <div className="grid lg:grid-cols-12 gap-10">
+            <div className="lg:col-span-8 space-y-10">
+              <header className="space-y-4">
+                <h1 className="text-5xl font-black tracking-tight leading-tight">
+                  Como podemos <br />
+                  <span className="text-emerald-500">
+                  ajudar você hoje?
+                </span>
+                </h1>
+
+                <p className="text-slate-400 text-lg max-w-2xl">
+                  Encontre especialistas para conserto ou solicite coleta ecológica.
+                </p>
+              </header>
+
+              <section className="space-y-6">
+                <div className="flex justify-between items-center">
+                  <h2 className="text-2xl font-black">
+                    Assistências Recomendadas
+                  </h2>
+
+                  <Link
+                      href="/marketplace"
+                      className="text-emerald-500 font-bold"
+                  >
+                    Ver todas →
+                  </Link>
+                </div>
+
+                <div className="grid gap-6">
+                  <AssistanceProfile
+                      name="Tech Nexus Solutions"
+                      rating={4.9}
+                      servicesCount={120}
+                      isVerified
+                      specialties={["iPhone", "Notebook", "Placa mãe"]}
+                  />
+
+                  <AssistanceProfile
+                      name="Junior Tech Lab"
+                      rating={4.7}
+                      servicesCount={34}
+                      isVerified
+                      isJunior
+                      specialties={["Android", "Windows", "Limpeza"]}
+                  />
+                </div>
+              </section>
+            </div>
+
+            <div className="lg:col-span-4 space-y-8">
+              <CollectionArea />
+
+              <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 space-y-5">
+                <h3 className="text-xl font-black">Sua Segurança</h3>
+
+                <div className="space-y-4 text-slate-400 text-sm">
+                  <p>✓ Técnicos avaliados</p>
+                  <p>✓ Garantia nos reparos</p>
+                  <p>✓ Pagamento seguro</p>
+                </div>
+              </div>
+
+              <div className="rounded-3xl p-8 bg-emerald-900/30 border border-emerald-500/20">
+                <h3 className="text-emerald-400 font-black mb-3">
+                  Dica Nexus Eco
+                </h3>
+
+                <p className="text-slate-300 text-sm">
+                  Faça descarte eletrônico e ganhe pontos para descontos.
+                </p>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+  );
+}
+
+
+
+==================================================
+ARQUIVO: src/app/b2b/page.tsx
+==================================================
+
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+
+import Sidebar from "@/components/dashboard/assistance/Sidebar";
+import Header from "@/components/dashboard/assistance/Header";
+import StatsCards from "@/components/dashboard/assistance/StatsCards";
+import OrdersList from "@/components/dashboard/assistance/OrdersList";
+import ScheduleManager from "@/components/dashboard/assistance/ScheduleManager";
+import ServicesManager from "@/components/dashboard/assistance/ServicesManager";
+import CompletionCard from "@/components/dashboard/assistance/CompletionCard";
+
+import { AuthService } from "@/services/authService";
+
+const authService = new AuthService();
+
+export default function B2BPage() {
+  const router = useRouter();
+
+  const [loading, setLoading] = useState(true);
+  const [user, setUser] = useState<unknown>(null);
+
+  useEffect(() => {
+    void init(); // ✅ corrige Promise returned from init is ignored
+  }, []);
+
+  async function init(): Promise<void> {
+    try {
+      const currentUser = await authService.getCurrentUser();
+
+      if (!currentUser) {
+        void router.replace("/");
+        return;
+      }
+
+      const role = await authService.getUserRole();
+
+      if (role !== "assistance") {
+        void router.replace("/b2c");
+        return;
+      }
+
+      setUser(currentUser);
+    } catch (error) {
+      console.error(error);
+      void router.replace("/");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (loading) {
+    return (
+        <div className="min-h-screen flex items-center justify-center bg-[#03111f]">
+          <div className="h-12 w-12 rounded-full border-b-2 border-primary animate-spin" />
+        </div>
+    );
+  }
+
+  return (
+      <div className="flex min-h-screen bg-gradient-to-br from-[#03111f] via-[#071a2d] to-[#03111f]">
+        <Sidebar />
+
+        <main className="flex-1 ml-64 min-h-screen">
+          <Header user={user} />
+
+          <div className="p-8 space-y-8">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div>
+                <h1 className="text-3xl font-black text-white tracking-tighter">
+                  Painel de Controle
+                </h1>
+
+                <p className="text-slate-300 font-bold">
+                  Gerencie sua assistência técnica.
+                </p>
+              </div>
+            </div>
+
+            <StatsCards />
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+              <div className="lg:col-span-2 space-y-8">
+                <OrdersList />
+                <ServicesManager />
+              </div>
+
+              <div className="space-y-8">
+                <CompletionCard />
+                <ScheduleManager />
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+  );
+}
+
+
+
+==================================================
+ARQUIVO: src/components/dashboard/AssistanceProfile.tsx
+==================================================
+
+"use client";
+
+import React from "react";
+
+interface AssistanceProfileProps {
+  name: string;
+  rating: number;
+  servicesCount: number;
+  isVerified: boolean;
+  isJunior?: boolean;
+  specialties: string[];
+}
+
+export default function AssistanceProfile({
+  name,
+  rating,
+  servicesCount,
+  isVerified,
+  isJunior,
+  specialties
+}: AssistanceProfileProps) {
+  return (
+    <div className="bg-slate-900 border border-slate-800 rounded-3xl p-8 shadow-2xl relative overflow-hidden group">
+      {/* Background Decor */}
+      <div className={`absolute top-0 right-0 w-32 h-32 blur-3xl opacity-5 transition-opacity group-hover:opacity-10 ${isJunior ? 'bg-blue-500' : 'bg-emerald-500'}`}></div>
+
+      <div className="flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
+        {/* Profile Image/Initial */}
+        <div className="relative">
+          <div className={`w-24 h-24 rounded-2xl flex items-center justify-center text-4xl font-extrabold text-white shadow-inner ${isJunior ? 'bg-blue-600' : 'bg-emerald-600'}`}>
+            {name.charAt(0)}
+          </div>
+          {isVerified && (
+            <div className="absolute -bottom-2 -right-2 bg-white dark:bg-slate-950 p-1.5 rounded-full shadow-lg border-2 border-slate-900">
+              <span className="text-emerald-500 text-xl block">✅</span>
+            </div>
+          )}
+        </div>
+
+        {/* Info */}
+        <div className="flex-1 space-y-4 text-center md:text-left">
+          <div className="space-y-1">
+            <div className="flex flex-col md:flex-row items-center md:items-baseline space-y-2 md:space-y-0 md:space-x-3">
+              <h3 className="text-2xl font-extrabold text-white tracking-tight">{name}</h3>
+              {isJunior && (
+                <span className="bg-blue-500/10 text-blue-500 text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full border border-blue-500/20">
+                  Assistência Júnior
+                </span>
+              )}
+            </div>
+            <div className="flex items-center justify-center md:justify-start space-x-2 text-yellow-500">
+              <div className="flex">
+                {[...Array(5)].map((_, i) => (
+                  <span key={i} className={i < Math.floor(rating) ? "text-yellow-400" : "text-slate-700 opacity-50"}>★</span>
+                ))}
+              </div>
+              <span className="text-white font-bold text-sm">{rating.toFixed(1)}</span>
+              <span className="text-slate-500 text-xs">• {servicesCount} serviços realizados</span>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+            {specialties.map((spec, i) => (
+              <span key={i} className="bg-slate-800 text-slate-300 text-[10px] font-bold px-3 py-1 rounded-lg border border-slate-700/50">
+                {spec}
+              </span>
+            ))}
+          </div>
+
+          <div className="pt-4 border-t border-slate-800 flex flex-col sm:flex-row gap-3">
+            <button className="flex-1 bg-white text-slate-900 py-3 rounded-xl font-bold text-sm hover:bg-slate-200 transition-colors shadow-lg active:scale-95">
+              Ver Perfil Completo
+            </button>
+            <button className={`flex-1 border py-3 rounded-xl font-bold text-sm transition-all active:scale-95 ${isJunior ? 'border-blue-500/50 text-blue-500 hover:bg-blue-500/10' : 'border-emerald-500/50 text-emerald-500 hover:bg-emerald-500/10'}`}>
+              Solicitar Orçamento
+            </button>
+          </div>
+        </div>
+      </div>
+
+      {/* Reviews Preview (Small) */}
+      <div className="mt-8 bg-slate-950/50 p-5 rounded-2xl border border-slate-800/50">
+        <h4 className="text-white font-bold text-xs uppercase tracking-widest mb-4 opacity-70">Avaliações Recentes</h4>
+        <div className="space-y-4">
+          <div className="space-y-1.5">
+            <div className="flex items-center space-x-2">
+              <div className="w-6 h-6 rounded-full bg-slate-800 flex items-center justify-center text-[8px]">👤</div>
+              <p className="text-xs text-white font-bold">Ricardo M.</p>
+              <div className="flex text-[8px] text-yellow-500">★★★★★</div>
+            </div>
+            <p className="text-[11px] text-slate-500 leading-relaxed">"Excelente serviço, rápido e honesto. Meu celular ficou como novo!"</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+
+
+==================================================
+ARQUIVO: src/components/dashboard/assistance/ServicesManager.tsx
+==================================================
+
+// ===============================================
+// ChatGPT
+// src/components/dashboard/assistance/ServicesManager.tsx
+// COMPLETO NOVO
+// ===============================================
+
+"use client";
+
+import { useState } from "react";
+import Link from "next/link";
+import {
+    Plus,
+    Pencil,
+    Trash2,
+    Monitor,
+    Smartphone,
+    Laptop,
+    Tablet,
+    Printer,
+    Wrench,
+    X,
+} from "lucide-react";
+
+type Service = {
+    id: number;
+    title: string;
+    description: string;
+    price: number;
+    time: string;
+    icon: string;
+    active: boolean;
+};
+
+type Props = {
+    fullPage?: boolean;
+};
+
+const ICONS = {
+    computador: Monitor,
+    celular: Smartphone,
+    notebook: Laptop,
+    tablet: Tablet,
+    impressora: Printer,
+};
+
+export default function ServicesManager({ fullPage = false }: Props) {
+    const [services, setServices] = useState<Service[]>([
+        {
+            id: 1,
+            title: "Formatação Windows 11",
+            description: "Instalação completa e drivers",
+            price: 150,
+            time: "3h",
+            icon: "computador",
+            active: true,
+        },
+        {
+            id: 2,
+            title: "Troca de Tela iPhone",
+            description: "Tela original premium",
+            price: 850,
+            time: "1h",
+            icon: "celular",
+            active: true,
+        },
+        {
+            id: 3,
+            title: "Upgrade SSD",
+            description: "Instalação + otimização",
+            price: 350,
+            time: "2h",
+            icon: "notebook",
+            active: true,
+        },
+        {
+            id: 4,
+            title: "Limpeza Preventiva",
+            description: "Limpeza interna completa",
+            price: 120,
+            time: "2h",
+            icon: "computador",
+            active: false,
+        },
+    ]);
+
+    const [editing, setEditing] = useState<number | null>(null);
+    const [iconModal, setIconModal] = useState<number | null>(null);
+
+    function update(id: number, field: keyof Service, value: any) {
+        setServices((prev) =>
+            prev.map((item) =>
+                item.id === id ? { ...item, [field]: value } : item
+            )
+        );
+    }
+
+    function remove(id: number) {
+        const item = services.find((x) => x.id === id);
+        if (!item) return;
+
+        const confirmDelete = confirm(
+            `Tem certeza que deseja excluir "${item.title}" ?`
+        );
+
+        if (confirmDelete) {
+            setServices((prev) => prev.filter((x) => x.id !== id));
+        }
+    }
+
+    function addService() {
+        setServices((prev) => [
+            ...prev,
+            {
+                id: Date.now(),
+                title: "Novo Serviço",
+                description: "Descrição do serviço",
+                price: 100,
+                time: "1h",
+                icon: "computador",
+                active: true,
+            },
+        ]);
+    }
+
+    // =====================================================
+    // HOME (cards)
+    // =====================================================
+    if (!fullPage) {
+        return (
+            <div className="bg-white rounded-[32px] p-8 space-y-8">
+                <div className="flex items-center justify-between">
+                    <div>
+                        <h3 className="text-xl font-black text-slate-900">
+                            Serviços Oferecidos
+                        </h3>
+                        <p className="text-sm text-slate-500 font-semibold">
+                            Seus principais serviços ativos.
+                        </p>
+                    </div>
+
+                    <Link
+                        href="/b2b/servicos"
+                        className="px-6 py-3 rounded-2xl bg-primary font-black text-slate-900"
+                    >
+                        Gerenciar
+                    </Link>
+                </div>
+
+                <div className="grid grid-cols-1 xl:grid-cols-2 gap-4">
+                    {services.slice(0, 4).map((service) => {
+                        const Icon =
+                            ICONS[service.icon as keyof typeof ICONS] || Monitor;
+
+                        return (
+                            <div
+                                key={service.id}
+                                className="p-5 rounded-2xl border border-slate-200"
+                            >
+                                <div className="flex items-center justify-between">
+                                    <div className="flex gap-4 items-center">
+                                        <div className="w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center">
+                                            <Icon size={24} />
+                                        </div>
+
+                                        <div>
+                                            <h4 className="font-black text-slate-900 text-sm">
+                                                {service.title}
+                                            </h4>
+                                            <p className="text-xs text-slate-500">
+                                                {service.description}
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div className="text-right">
+                                        <p className="font-black text-slate-900">
+                                            R$ {service.price}
+                                        </p>
+                                        <p className="text-xs text-slate-500">{service.time}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+        );
+    }
+
+    // =====================================================
+    // FULL PAGE LISTA
+    // =====================================================
+    return (
+        <>
+            <div className="bg-white rounded-[32px] p-8 space-y-6">
+                <div className="flex justify-between items-center">
+                    <h3 className="text-2xl font-black text-slate-900">
+                        Serviços Oferecidos
+                    </h3>
+
+                    <button
+                        onClick={addService}
+                        className="px-6 py-3 rounded-2xl bg-primary font-black text-slate-900 flex items-center gap-2"
+                    >
+                        <Plus size={18} />
+                        Novo Serviço
+                    </button>
+                </div>
+
+                <div className="space-y-4">
+                    {services.map((service) => {
+                        const Icon =
+                            ICONS[service.icon as keyof typeof ICONS] || Monitor;
+
+                        const isEdit = editing === service.id;
+
+                        return (
+                            <div
+                                key={service.id}
+                                className="border border-slate-200 rounded-3xl p-6"
+                            >
+                                <div className="grid grid-cols-12 gap-4 items-start">
+                                    {/* ICON */}
+                                    <button
+                                        onClick={() =>
+                                            isEdit && setIconModal(service.id)
+                                        }
+                                        className="col-span-1 w-12 h-12 rounded-xl bg-primary/10 text-primary flex items-center justify-center"
+                                    >
+                                        <Icon size={24} />
+                                    </button>
+
+                                    {/* INFO */}
+                                    <div className="col-span-7 space-y-3">
+                                        {isEdit ? (
+                                            <>
+                                                <input
+                                                    value={service.title}
+                                                    onChange={(e) =>
+                                                        update(
+                                                            service.id,
+                                                            "title",
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    className="w-full border rounded-xl px-4 py-3 text-slate-900 font-black"
+                                                />
+
+                                                <input
+                                                    value={service.description}
+                                                    onChange={(e) =>
+                                                        update(
+                                                            service.id,
+                                                            "description",
+                                                            e.target.value
+                                                        )
+                                                    }
+                                                    className="w-full border rounded-xl px-4 py-3 text-slate-700"
+                                                />
+                                            </>
+                                        ) : (
+                                            <>
+                                                <h4 className="text-xl font-black text-slate-900">
+                                                    {service.title}
+                                                </h4>
+                                                <p className="text-slate-500 font-semibold">
+                                                    {service.description}
+                                                </p>
+                                            </>
+                                        )}
+                                    </div>
+
+                                    {/* PRICE */}
+                                    <div className="col-span-2 space-y-3">
+                                        {isEdit ? (
+                                            <div className="flex">
+                                                <div className="px-3 bg-slate-100 border rounded-l-xl flex items-center font-bold">
+                                                    R$
+                                                </div>
+                                                <input
+                                                    type="number"
+                                                    value={service.price}
+                                                    onChange={(e) =>
+                                                        update(
+                                                            service.id,
+                                                            "price",
+                                                            Number(e.target.value)
+                                                        )
+                                                    }
+                                                    className="w-full border border-l-0 rounded-r-xl px-3 py-3 text-slate-900 font-black"
+                                                />
+                                            </div>
+                                        ) : (
+                                            <p className="text-2xl font-black text-slate-900">
+                                                R$ {service.price}
+                                            </p>
+                                        )}
+
+                                        {isEdit ? (
+                                            <select
+                                                value={service.time}
+                                                onChange={(e) =>
+                                                    update(
+                                                        service.id,
+                                                        "time",
+                                                        e.target.value
+                                                    )
+                                                }
+                                                className="w-full border rounded-xl px-3 py-3 text-slate-900"
+                                            >
+                                                <option>1h</option>
+                                                <option>2h</option>
+                                                <option>3h</option>
+                                                <option>1 dia</option>
+                                                <option>3 dias</option>
+                                                <option>7 dias</option>
+                                                <option>15 dias</option>
+                                            </select>
+                                        ) : (
+                                            <p className="text-slate-500 font-semibold">
+                                                {service.time}
+                                            </p>
+                                        )}
+                                    </div>
+
+                                    {/* ACTIONS */}
+                                    <div className="col-span-2 flex gap-2 justify-end">
+                                        <button
+                                            onClick={() =>
+                                                setEditing(
+                                                    isEdit ? null : service.id
+                                                )
+                                            }
+                                            className="w-11 h-11 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center hover:bg-slate-200"
+                                        >
+                                            <Pencil size={18} />
+                                        </button>
+
+                                        <button
+                                            onClick={() =>
+                                                update(
+                                                    service.id,
+                                                    "active",
+                                                    !service.active
+                                                )
+                                            }
+                                            className={`px-4 h-11 rounded-xl font-bold ${
+                                                service.active
+                                                    ? "bg-primary text-slate-900"
+                                                    : "bg-slate-200 text-slate-600"
+                                            }`}
+                                        >
+                                            {service.active
+                                                ? "Ativo"
+                                                : "Pausado"}
+                                        </button>
+
+                                        <button
+                                            onClick={() => remove(service.id)}
+                                            className="w-11 h-11 rounded-xl bg-red-50 text-red-500 flex items-center justify-center"
+                                        >
+                                            <Trash2 size={18} />
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+
+            {/* MODAL ICONE */}
+            {iconModal && (
+                <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center">
+                    <div className="bg-white w-[520px] rounded-[32px] p-8 space-y-6 shadow-2xl">
+                        <div className="flex justify-between items-center">
+                            <h3 className="text-xl font-black text-slate-900">
+                                Escolher Dispositivo
+                            </h3>
+
+                            <button
+                                onClick={() => setIconModal(null)}
+                                className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center"
+                            >
+                                <X size={18} />
+                            </button>
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-4">
+                            {Object.entries(ICONS).map(([key, Comp]) => (
+                                <button
+                                    key={key}
+                                    onClick={() => {
+                                        update(iconModal, "icon", key);
+                                        setIconModal(null);
+                                    }}
+                                    className="border border-slate-200 rounded-2xl p-5 hover:border-primary hover:bg-primary/5 transition text-left"
+                                >
+                                    <Comp
+                                        size={28}
+                                        className="text-primary mb-3"
+                                    />
+
+                                    <p className="font-black text-slate-900 capitalize">
+                                        {key}
+                                    </p>
+                                </button>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            )}
+        </>
+    );
+}
+
+
+
+==================================================
+ARQUIVO: src/components/dashboard/assistance/Sidebar.tsx
+==================================================
+
+// src/components/dashboard/assistance/Sidebar.tsx
+
+"use client";
+
+import React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
+import {
+  LayoutDashboard,
+  ShoppingBag,
+  Calendar,
+  Wrench,
+  User,
+  Star,
+  DollarSign,
+  Settings,
+  LogOut,
+} from "lucide-react";
+import { AuthService } from "@/services/authService";
+
+const authService = new AuthService();
+
+const menuItems = [
+  { icon: LayoutDashboard, label: "Dashboard", href: "/b2b" },
+  { icon: ShoppingBag, label: "Pedidos", href: "/b2b/pedidos" },
+  { icon: Calendar, label: "Agenda", href: "/b2b/agenda" },
+  { icon: Wrench, label: "Serviços", href: "/b2b/servicos" },
+  { icon: User, label: "Perfil Público", href: "/b2b/perfil" },
+  { icon: Star, label: "Avaliações", href: "/b2b/avaliacoes" },
+  { icon: DollarSign, label: "Financeiro", href: "/b2b/financeiro" },
+  { icon: Settings, label: "Configurações", href: "/b2b/configuracoes" },
+];
+
+export default function Sidebar() {
+  const pathname = usePathname();
+
+  const handleLogout = async () => {
+    try {
+      await authService.logout();
+    } catch (error) {
+      console.error(error);
+    } finally {
+      window.location.href = "/";
+    }
+  };
+
+  return (
+      <aside className="w-64 bg-[#07111d] min-h-screen fixed left-0 top-0 flex flex-col z-50 border-r border-white/5">
+        <div className="p-8">
+          <Link href="/" className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-primary flex items-center justify-center">
+              <div className="w-4 h-4 bg-slate-900 rounded-sm" />
+            </div>
+
+            <div>
+              <p className="text-white font-black text-lg tracking-tight">
+                StartNexus
+              </p>
+              <p className="text-white/40 text-[10px] font-bold uppercase">
+                Painel B2B
+              </p>
+            </div>
+          </Link>
+        </div>
+
+        <nav className="flex-1 px-4 space-y-2">
+          {menuItems.map((item) => {
+            const active = pathname === item.href;
+
+            return (
+                <Link
+                    key={item.label}
+                    href={item.href}
+                    className={`flex items-center gap-3 px-4 py-3 rounded-2xl font-bold text-sm transition ${
+                        active
+                            ? "bg-primary text-slate-900"
+                            : "text-white/55 hover:text-white hover:bg-white/5"
+                    }`}
+                >
+                  <item.icon size={18} />
+                  {item.label}
+                </Link>
+            );
+          })}
+        </nav>
+
+        <div className="p-4 border-t border-white/5">
+          <button
+              onClick={handleLogout}
+              className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-red-400 hover:bg-red-500/10 font-bold text-sm transition"
+          >
+            <LogOut size={18} />
+            Sair
+          </button>
+        </div>
+      </aside>
+  );
+}
+
+
+
+==================================================
+ARQUIVO: src/components/dashboard/assistance/ScheduleManager.tsx
+==================================================
+
+"use client";
+
+import { useEffect, useState } from "react";
+import { Check, X, Loader2, Save } from "lucide-react";
+import { supabase } from "@/lib/supabaseClient";
+
+type DayItem = {
+    day: string;
+    day_of_week: number;
+    start: string;
+    end: string;
+    active: boolean;
+};
+
+const DEFAULT_SCHEDULE: DayItem[] = [
+    { day: "Domingo", day_of_week: 0, start: "00:00", end: "00:00", active: false },
+    { day: "Segunda", day_of_week: 1, start: "08:00", end: "18:00", active: true },
+    { day: "Terça", day_of_week: 2, start: "08:00", end: "18:00", active: true },
+    { day: "Quarta", day_of_week: 3, start: "08:00", end: "18:00", active: true },
+    { day: "Quinta", day_of_week: 4, start: "08:00", end: "18:00", active: true },
+    { day: "Sexta", day_of_week: 5, start: "08:00", end: "18:00", active: true },
+    { day: "Sábado", day_of_week: 6, start: "09:00", end: "14:00", active: true },
+];
+
+export default function ScheduleManager() {
+    const [schedule, setSchedule] = useState(DEFAULT_SCHEDULE);
+    const [loading, setLoading] = useState(true);
+    const [saving, setSaving] = useState(false);
+
+    useEffect(() => {
+        setLoading(false);
+    }, []);
+
+    function updateDay(
+        index: number,
+        field: keyof DayItem,
+        value: string | boolean
+    ) {
+        setSchedule((prev) => {
+            const copy = [...prev];
+            copy[index] = { ...copy[index], [field]: value };
+            return copy;
+        });
+    }
+
+    if (loading) {
+        return (
+            <div className="bg-white rounded-[32px] p-8 min-h-[280px] flex items-center justify-center">
+                <Loader2 className="animate-spin text-primary" size={28} />
+            </div>
+        );
+    }
+
+    return (
+        <div className="bg-white rounded-[32px] p-6 border border-slate-200 shadow-sm overflow-hidden">
+            {/* TOPO */}
+            <div className="flex flex-col gap-4 xl:flex-row xl:items-center xl:justify-between mb-8">
+                <div>
+                    <h2 className="text-3xl font-black text-slate-900 leading-tight">
+                        Agenda Operacional
+                    </h2>
+
+                    <p className="mt-2 text-slate-500 text-base font-semibold">
+                        Configure horários e formas de atendimento.
+                    </p>
+                </div>
+
+                <button className="h-12 px-5 rounded-2xl bg-slate-950 text-white text-sm font-bold flex items-center gap-2 shrink-0 self-start">
+                    {saving ? (
+                        <Loader2 size={15} className="animate-spin" />
+                    ) : (
+                        <Save size={15} />
+                    )}
+                    Salvar
+                </button>
+            </div>
+
+            {/* LINHAS */}
+            <div className="space-y-3">
+                {schedule.map((item, i) => (
+                    <div
+                        key={item.day}
+                        className="rounded-3xl border border-slate-200 bg-slate-50 px-4 py-3"
+                    >
+                        {/* GRID ENCAIXADO */}
+                        <div className="grid grid-cols-[44px_1fr_88px_22px_88px] gap-2 items-center">
+                            {/* STATUS */}
+                            <button
+                                onClick={() =>
+                                    updateDay(i, "active", !item.active)
+                                }
+                                className={`w-11 h-11 rounded-2xl flex items-center justify-center ${
+                                    item.active
+                                        ? "bg-primary/15 text-primary"
+                                        : "bg-slate-200 text-slate-400"
+                                }`}
+                            >
+                                {item.active ? (
+                                    <Check size={16} />
+                                ) : (
+                                    <X size={16} />
+                                )}
+                            </button>
+
+                            {/* DIA */}
+                            <span
+                                className={`text-base font-bold truncate ${
+                                    item.active
+                                        ? "text-slate-900"
+                                        : "text-slate-400"
+                                }`}
+                            >
+                {item.day}
+              </span>
+
+                            {/* HORA INICIO */}
+                            <input
+                                type="time"
+                                value={item.start}
+                                onChange={(e) =>
+                                    updateDay(i, "start", e.target.value)
+                                }
+                                className="w-full h-10 rounded-xl border border-slate-200 bg-white px-2 text-xs font-bold text-slate-900"
+                            />
+
+                            {/* ATE */}
+                            <span className="text-[11px] font-bold text-slate-500 text-center">
+                até
+              </span>
+
+                            {/* HORA FIM */}
+                            <input
+                                type="time"
+                                value={item.end}
+                                onChange={(e) =>
+                                    updateDay(i, "end", e.target.value)
+                                }
+                                className="w-full h-10 rounded-xl border border-slate-200 bg-white px-2 text-xs font-bold text-slate-900"
+                            />
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </div>
+    );
+}
+
+
+
+==================================================
+ARQUIVO: src/components/forms/AssistanceForm.tsx
+==================================================
+
+"use client";
+
+import React, { useState, useEffect } from "react";
+import { AuthService } from "@/services/authService";
+import { supabase } from "@/lib/supabaseClient";
+
+const authService = new AuthService();
+
+export default function AssistanceForm() {
+    const [services, setServices] = useState<any[]>([]);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+
+    const [form, setForm] = useState({
+        email: "",
+        password: "",
+        businessName: "",
+        cnpj: "",
+        address: "",
+        description: "",
+        experience: 0,
+        isJunior: false,
+        services: [] as string[],
+        logo: null as File | null,
+        workspacePhotos: [] as File[],
+        certificates: [] as File[],
+    });
+
+    useEffect(() => {
+        async function fetchServices() {
+            const { data } = await supabase.from("services").select("*");
+            setServices(data || []);
+        }
+        void fetchServices();
+    }, []);
+
+    function handleChange(e: any) {
+        const { name, value, type, checked, files } = e.target;
+        if (type === "file") {
+            setForm({
+                ...form,
+                [name]: files ? Array.from(files) : [],
+            });
+        } else {
+            setForm({
+                ...form,
+                [name]: type === "checkbox" ? checked : value,
+            });
+        }
+    }
+
+    function toggleService(id: string) {
+        setForm((prev) => ({
+            ...prev,
+            services: prev.services.includes(id)
+                ? prev.services.filter((s) => s !== id)
+                : [...prev.services, id],
+        }));
+    }
+
+    async function handleRegister() {
+        if (loading) return;
+        setError("");
+
+        if (!form.email || !form.password || !form.businessName) {
+            setError("E-mail, senha e nome da assistência são obrigatórios.");
+            return;
+        }
+
+        setLoading(true);
+        try {
+            await authService.registerAssistance(form);
+            alert("Cadastro de assistência realizado com sucesso!");
+        } catch (err: any) {
+            setError(err.message || "Erro ao cadastrar assistência.");
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    return (
+        <div className="space-y-8 w-full max-w-2xl mx-auto pb-12">
+            {error && (
+                <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl text-red-600 dark:text-red-400 text-sm animate-shake">
+                    {error}
+                </div>
+            )}
+
+            <div className="grid md:grid-cols-2 gap-6">
+                <div className="space-y-4">
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Nome da Assistência</label>
+                        <input
+                            name="businessName"
+                            placeholder="Ex: Tech Nexus Solutions"
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none"
+                        />
+                    </div>
+
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">E-mail Profissional</label>
+                        <input
+                            name="email"
+                            type="email"
+                            placeholder="contato@empresa.com"
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none"
+                        />
+                    </div>
+
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Senha</label>
+                        <input
+                            name="password"
+                            type="password"
+                            placeholder="••••••••"
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none"
+                        />
+                    </div>
+
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">CNPJ (Opcional)</label>
+                        <input
+                            name="cnpj"
+                            placeholder="00.000.000/0000-00"
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none"
+                        />
+                    </div>
+                </div>
+
+                <div className="space-y-4">
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Endereço da Loja/Oficina</label>
+                        <input
+                            name="address"
+                            placeholder="Rua, número, bairro"
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none"
+                        />
+                    </div>
+
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Anos de Experiência</label>
+                        <input
+                            name="experience"
+                            type="number"
+                            placeholder="0"
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none"
+                        />
+                    </div>
+
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Descrição dos Serviços</label>
+                        <textarea
+                            name="description"
+                            placeholder="Fale sobre suas especialidades e diferencial..."
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition-all outline-none h-32 resize-none"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            {/* Junior Section */}
+            <div className={`p-5 rounded-2xl border transition-all flex items-center space-x-4 ${form.isJunior ? 'bg-blue-600 border-blue-400 shadow-lg shadow-blue-900/20' : 'bg-blue-50 dark:bg-blue-900/10 border-blue-100 dark:border-blue-800'}`}>
+                <div className="relative flex items-center justify-center">
+                    <input
+                        type="checkbox"
+                        name="isJunior"
+                        checked={form.isJunior}
+                        onChange={handleChange}
+                        className="w-6 h-6 rounded-lg border-2 border-blue-400 text-blue-600 focus:ring-blue-500 cursor-pointer"
+                    />
+                </div>
+                <div className="flex-1">
+                    <label className={`block font-bold text-sm ${form.isJunior ? 'text-white' : 'text-blue-700 dark:text-blue-400'}`}>
+                        Sou Assistente Júnior (Estudante/Iniciante)
+                    </label>
+                    <p className={`text-xs ${form.isJunior ? 'text-blue-100' : 'text-blue-600/80 dark:text-blue-500/60'}`}>
+                        Se você tem curso de hardware ou manutenção e está começando, marque esta opção para suporte especializado.
+                    </p>
+                </div>
+                {form.isJunior && <span className="text-2xl animate-bounce">🚀</span>}
+            </div>
+
+            <div className="bg-slate-50 dark:bg-slate-800/50 p-6 rounded-2xl border border-slate-200 dark:border-slate-700 space-y-4">
+                <h3 className="font-bold text-slate-900 dark:text-white flex items-center space-x-2">
+                    <span>🛠️</span>
+                    <span>Especialidades Técnicas</span>
+                </h3>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                    {services.map((s: any) => (
+                        <label key={s.id} className={`flex items-center space-x-3 p-3 rounded-xl border cursor-pointer transition-all ${form.services.includes(s.id) ? 'bg-blue-500 border-blue-400 text-white shadow-md' : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 hover:border-blue-500'}`}>
+                            <input
+                                type="checkbox"
+                                checked={form.services.includes(s.id)}
+                                onChange={() => toggleService(s.id)}
+                                className="hidden"
+                            />
+                            <span className="text-sm font-medium">{s.name}</span>
+                        </label>
+                    ))}
+                </div>
+            </div>
+
+            <div className="grid md:grid-cols-3 gap-6">
+                <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Logo</label>
+                    <div className="p-4 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl hover:border-blue-500 transition-colors text-center cursor-pointer group">
+                        <input
+                            type="file"
+                            name="logo"
+                            onChange={(e: any) => setForm({ ...form, logo: e.target.files[0] })}
+                            className="hidden"
+                            id="logo-upload"
+                        />
+                        <label htmlFor="logo-upload" className="cursor-pointer">
+                            <span className="text-2xl block mb-1 group-hover:scale-110 transition-transform">🖼️</span>
+                            <span className="text-xs text-slate-500 group-hover:text-blue-500">Upload Logo</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Espaço Físico</label>
+                    <div className="p-4 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl hover:border-blue-500 transition-colors text-center cursor-pointer group">
+                        <input
+                            type="file"
+                            name="workspacePhotos"
+                            multiple
+                            onChange={handleChange}
+                            className="hidden"
+                            id="workspace-upload"
+                        />
+                        <label htmlFor="workspace-upload" className="cursor-pointer">
+                            <span className="text-2xl block mb-1 group-hover:scale-110 transition-transform">📸</span>
+                            <span className="text-xs text-slate-500 group-hover:text-blue-500">Fotos da Oficina</span>
+                        </label>
+                    </div>
+                </div>
+
+                <div className="space-y-2">
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Certificações</label>
+                    <div className="p-4 border-2 border-dashed border-slate-200 dark:border-slate-800 rounded-xl hover:border-blue-500 transition-colors text-center cursor-pointer group">
+                        <input
+                            type="file"
+                            name="certificates"
+                            multiple
+                            onChange={handleChange}
+                            className="hidden"
+                            id="cert-upload"
+                        />
+                        <label htmlFor="cert-upload" className="cursor-pointer">
+                            <span className="text-2xl block mb-1 group-hover:scale-110 transition-transform">📜</span>
+                            <span className="text-xs text-slate-500 group-hover:text-blue-500">Certificados</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <button
+                onClick={handleRegister}
+                disabled={loading}
+                className="w-full py-4 bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-extrabold rounded-xl transition-all shadow-lg shadow-blue-900/20 active:scale-[0.98] flex items-center justify-center space-x-2"
+            >
+                {loading ? (
+                    <>
+                        <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                        <span>Processando Cadastro...</span>
+                    </>
+                ) : (
+                    <span>Cadastrar Minha Assistência Profissional</span>
+                )}
+            </button>
+        </div>
+    );
+}
+
+
+
+==================================================
+ARQUIVO: src/components/forms/ClientForm.tsx
+==================================================
+
+"use client";
+
+import { useState, type ChangeEvent } from "react";
+import { AuthService } from "@/services/authService";
+
+const authService = new AuthService();
+
+export default function ClientForm() {
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+
+    const [form, setForm] = useState({
+        email: "",
+        password: "",
+        firstName: "",
+        lastName: "",
+        address: "",
+    });
+
+    function handleChange(e: ChangeEvent<HTMLInputElement>) {
+        const { name, value } = e.target;
+        setForm((prev) => ({
+            ...prev,
+            [name]: value,
+        }));
+    }
+
+    async function handleRegister() {
+        if (loading) return;
+        setError("");
+
+        if (!form.email || !form.password || !form.firstName) {
+            setError("Por favor, preencha todos os campos obrigatórios.");
+            return;
+        }
+
+        setLoading(true);
+
+        try {
+            await authService.registerClient(form);
+            alert("Conta de cliente criada com sucesso!");
+            // Redirecionar para login ou b2c
+        } catch (err: any) {
+            setError(err.message || "Erro ao criar conta.");
+        } finally {
+            setLoading(false);
+        }
+    }
+
+    return (
+        <div className="space-y-6 w-full max-w-md mx-auto">
+            {error && (
+                <div className="p-4 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-xl text-red-600 dark:text-red-400 text-sm animate-shake">
+                    {error}
+                </div>
+            )}
+
+            <div className="space-y-4">
+                <div className="grid grid-cols-2 gap-4">
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Nome</label>
+                        <input
+                            name="firstName"
+                            placeholder="João"
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none"
+                        />
+                    </div>
+                    <div className="space-y-1.5">
+                        <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Sobrenome</label>
+                        <input
+                            name="lastName"
+                            placeholder="Silva"
+                            onChange={handleChange}
+                            className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none"
+                        />
+                    </div>
+                </div>
+
+                <div className="space-y-1.5">
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">E-mail</label>
+                    <input
+                        name="email"
+                        type="email"
+                        placeholder="joao@exemplo.com"
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none"
+                    />
+                </div>
+
+                <div className="space-y-1.5">
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Senha</label>
+                    <input
+                        name="password"
+                        type="password"
+                        placeholder="••••••••"
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none"
+                    />
+                </div>
+
+                <div className="space-y-1.5">
+                    <label className="block text-sm font-semibold text-slate-700 dark:text-slate-300">Endereço Completo</label>
+                    <input
+                        name="address"
+                        placeholder="Rua, número, bairro, cidade"
+                        onChange={handleChange}
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white focus:ring-2 focus:ring-emerald-500/20 focus:border-emerald-500 transition-all outline-none"
+                    />
+                </div>
+            </div>
+
+            <button
+                onClick={handleRegister}
+                disabled={loading}
+                className="w-full py-4 bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold rounded-xl transition-all shadow-lg shadow-emerald-900/20 active:scale-[0.98] mt-4 flex items-center justify-center space-x-2"
+            >
+                {loading ? (
+                    <>
+                        <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                        <span>Criando sua conta...</span>
+                    </>
+                ) : (
+                    <span>Finalizar Cadastro de Cliente</span>
+                )}
+            </button>
+        </div>
+    );
+}
+
+
+
+==================================================
+ARQUIVO: src/components/home/AuthCard.tsx
+==================================================
+
+
+
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+import { AuthService } from "@/services/authService";
+
+export default function AuthCard() {
+  const router = useRouter();
+  const auth = new AuthService();
+
+  const [tab, setTab] = useState<"assistance" | "client">("client");
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  async function handleLogin() {
+    try {
+      setLoading(true);
+      setError("");
+
+      await auth.login(email, password);
+
+      if (tab === "client") {
+        router.push("/b2c");
+      } else {
+        router.push("/b2b");
+      }
+    } catch (err: any) {
+      setError("Email ou senha inválidos.");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+      <div className="flex justify-center lg:justify-end">
+        <div className="relative w-[360px] h-[720px] rounded-[52px] p-[10px] bg-zinc-800 shadow-2xl border border-white/10">
+
+          <div className="absolute inset-0 rounded-[52px] ring-2 ring-zinc-600 pointer-events-none" />
+
+          <div className="absolute -left-[3px] top-32 w-[4px] h-14 rounded-full bg-zinc-500" />
+          <div className="absolute -left-[3px] top-52 w-[4px] h-20 rounded-full bg-zinc-500" />
+          <div className="absolute -right-[3px] top-44 w-[4px] h-24 rounded-full bg-zinc-500" />
+
+          <div className="relative w-full h-full rounded-[42px] overflow-hidden bg-white">
+
+            <div className="absolute top-3 left-1/2 -translate-x-1/2 z-20 w-32 h-7 bg-black rounded-full" />
+
+            <div className="h-full px-7 pt-20 pb-8 bg-white flex flex-col justify-center">
+
+              <h2 className="text-[42px] font-black text-slate-900 leading-none text-center">
+                Acesse sua conta
+              </h2>
+
+              <p className="mt-3 text-center text-slate-500 text-lg">
+                {tab === "client" ? "Acesso para Clientes" : "Acesso para Assistências"}
+              </p>
+
+              {/* Tabs */}
+              <div className="mt-8 p-2 rounded-2xl bg-slate-100 grid grid-cols-2 gap-2">
+
+                <button
+                    onClick={() => setTab("assistance")}
+                    className={`h-14 rounded-xl font-semibold text-lg transition ${
+                        tab === "assistance"
+                            ? "bg-black text-white"
+                            : "text-slate-600"
+                    }`}
+                >
+                  Assistência
+                </button>
+
+                <button
+                    onClick={() => setTab("client")}
+                    className={`h-14 rounded-xl font-semibold text-lg transition ${
+                        tab === "client"
+                            ? "bg-black text-white"
+                            : "text-slate-600"
+                    }`}
+                >
+                  Cliente
+                </button>
+
+              </div>
+
+              {/* Inputs */}
+              <input
+                  type="email"
+                  placeholder="exemplo@email.com"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  className="mt-7 h-16 px-5 rounded-2xl border border-slate-200 text-slate-700 placeholder:text-slate-400 outline-none"
+              />
+
+              <input
+                  type="password"
+                  placeholder="********"
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  className="mt-5 h-16 px-5 rounded-2xl border border-slate-200 text-slate-700 placeholder:text-slate-400 outline-none"
+              />
+
+              {/* Error */}
+              {error && (
+                  <p className="mt-4 text-center text-red-500 text-sm font-medium">
+                    {error}
+                  </p>
+              )}
+
+              {/* Botão */}
+              <button
+                  onClick={handleLogin}
+                  disabled={loading}
+                  className="mt-6 h-16 rounded-2xl bg-black text-white font-bold text-xl hover:scale-[1.02] transition disabled:opacity-60"
+              >
+                {loading ? "Entrando..." : "Entrar"}
+              </button>
+
+              <button className="mt-4 h-16 rounded-2xl border border-slate-200 text-slate-400 font-semibold text-lg">
+                Cadastre-se
+              </button>
+
+            </div>
+          </div>
+        </div>
+      </div>
+  );
+}
+
+
+
+==================================================
+ARQUIVO: src/components/layout/Navbar.tsx
+==================================================
+
+// src/components/layout/Navbar.tsx
+"use client";
+
+import Link from "next/link";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { User, LogOut, Menu, X } from "lucide-react";
+import { AuthService } from "@/services/authService";
+
+const authService = new AuthService();
+
+export default function Navbar() {
+  const router = useRouter();
+
+  const [user, setUser] = useState<any>(null);
+  const [open, setOpen] = useState(false);
+
+  useEffect(() => {
+    void loadUser();
+  }, []);
+
+  async function loadUser() {
+    const current = await authService.getCurrentUser();
+    setUser(current);
+  }
+
+  async function logout() {
+    await authService.logout();
+    router.push("/");
+  }
+
+  return (
+      <header className="sticky top-0 z-50 w-full border-b border-white/10 bg-background/80 backdrop-blur-xl">
+        <div className="max-w-7xl mx-auto h-24 px-6 flex items-center justify-between">
+
+          {/* LOGO MAIS BAIXO E ADAPTADA DARK */}
+          <Link
+              href="/"
+              className="flex items-center shrink-0 pt-3 brightness-125 contrast-125"
+          >
+            <Image
+                src="/logo-light.png"
+                alt="StartNexus"
+                width={200}
+                height={78}
+                priority
+                className="object-contain drop-shadow-[0_0_18px_rgba(0,245,160,0.18)]"
+            />
+          </Link>
+
+          {/* MENU DESKTOP */}
+          <nav className="hidden lg:flex items-center gap-8 text-sm font-medium text-muted">
+            <a href="#inicio" className="hover:text-foreground transition-colors">
+              Início
+            </a>
+
+            <a
+                href="#quem-somos"
+                className="hover:text-foreground transition-colors"
+            >
+              Quem Somos
+            </a>
+
+            <a
+                href="#solucoes"
+                className="hover:text-foreground transition-colors"
+            >
+              Soluções
+            </a>
+
+            <a
+                href="#marketplace-preview"
+                className="hover:text-foreground transition-colors"
+            >
+              Marketplace
+            </a>
+          </nav>
+
+          {/* BOTÕES DIREITA */}
+          <div className="hidden lg:flex items-center gap-3">
+            {!user ? (
+                <>
+                  <Link
+                      href="/auth/login"
+                      className="px-4 py-2 rounded-lg text-sm font-medium text-muted hover:text-foreground hover:bg-surface transition-colors"
+                  >
+                    Entrar
+                  </Link>
+
+                  <Link
+                      href="/auth/register"
+                      className="px-5 py-2.5 rounded-xl text-sm font-semibold text-white bg-gradient-brand shadow-glow-primary"
+                  >
+                    Começar
+                  </Link>
+                </>
+            ) : (
+                <>
+                  <Link
+                      href="/b2c"
+                      className="p-2.5 rounded-xl bg-surface hover:bg-white/10 transition"
+                  >
+                    <User size={18} />
+                  </Link>
+
+                  <button
+                      onClick={() => void logout()}
+                      className="p-2.5 rounded-xl bg-surface hover:bg-white/10 transition"
+                  >
+                    <LogOut size={18} />
+                  </button>
+                </>
+            )}
+          </div>
+
+          {/* MOBILE */}
+          <button
+              onClick={() => setOpen(!open)}
+              className="lg:hidden p-2.5 rounded-xl bg-surface"
+          >
+            {open ? <X size={20} /> : <Menu size={20} />}
+          </button>
+        </div>
+
+        {/* MENU MOBILE */}
+        {open && (
+            <div className="lg:hidden border-t border-white/10 px-6 py-5 bg-background space-y-4">
+              <a href="#inicio" className="block text-sm">
+                Início
+              </a>
+
+              <a href="#quem-somos" className="block text-sm">
+                Quem Somos
+              </a>
+
+              <a href="#solucoes" className="block text-sm">
+                Soluções
+              </a>
+
+              <a href="#marketplace-preview" className="block text-sm">
+                Marketplace
+              </a>
+            </div>
+        )}
+      </header>
+  );
+}
+
+

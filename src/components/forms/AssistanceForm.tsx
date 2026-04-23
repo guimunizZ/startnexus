@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { AuthService } from "@/client/services/authService";
+import { AuthService } from "@/services/authService";
 import { supabase } from "@/lib/supabaseClient";
 
 const authService = new AuthService();

@@ -6,7 +6,7 @@ import Image from "next/image";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { User, LogOut, Menu, X } from "lucide-react";
-import { AuthService } from "@/client/services/authService";
+import { AuthService } from "@/services/authService";
 
 const authService = new AuthService();
 

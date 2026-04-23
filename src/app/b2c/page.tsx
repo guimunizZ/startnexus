@@ -6,7 +6,7 @@ import Link from "next/link";
 import Image from "next/image";
 import CollectionArea from "@/components/dashboard/CollectionArea";
 import AssistanceProfile from "@/components/dashboard/AssistanceProfile";
-import { AuthService } from "@/client/services/authService";
+import { AuthService } from "@/services/authService";
 
 const authService = new AuthService();
 
