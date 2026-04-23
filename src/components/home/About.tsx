@@ -13,10 +13,14 @@ export default function About() {
   ];
 
   return (
-      <section id="quem-somos" className="py-24 bg-surface/40 relative overflow-hidden">
+      <section
+          id="quem-somos"
+          className="py-24 relative overflow-hidden bg-slate-950"
+      >
         <div className="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 relative z-10">
           <div className="grid lg:grid-cols-2 gap-16 items-center">
 
+            {/* LEFT */}
             <motion.div
                 initial={{ opacity: 0, x: -30 }}
                 whileInView={{ opacity: 1, x: 0 }}
@@ -25,20 +29,21 @@ export default function About() {
                 className="space-y-8"
             >
               <div className="space-y-4">
-                <h2 className="text-primary text-sm font-extrabold uppercase tracking-[0.2em]">
+                <h2 className="text-emerald-400 text-sm font-extrabold uppercase tracking-[0.22em]">
                   Quem Somos
                 </h2>
 
-                <h3 className="text-4xl md:text-5xl xl:text-6xl font-black tracking-tight leading-[1.02] text-foreground">
+                <h3 className="text-4xl md:text-5xl xl:text-6xl font-black tracking-tight leading-[1.02] text-white">
                   Construindo o futuro com
                   <br />
+
                   <span className="text-gradient">
                   tecnologia e propósito
                 </span>
                 </h3>
               </div>
 
-              <div className="space-y-6 text-lg text-muted leading-relaxed">
+              <div className="space-y-6 text-lg text-slate-300 leading-relaxed">
                 <p>
                   A Start Nexus nasceu em São Paulo com a missão de unir
                   educação tecnológica, inclusão social e sustentabilidade.
@@ -53,11 +58,11 @@ export default function About() {
               <div className="grid grid-cols-2 gap-8 pt-4">
                 {stats.map((stat) => (
                     <div key={stat.label}>
-                      <p className="text-4xl font-black text-foreground">
+                      <p className="text-4xl font-black text-white">
                         {stat.value}
                       </p>
 
-                      <p className="text-xs uppercase tracking-widest text-muted mt-1">
+                      <p className="text-xs uppercase tracking-widest text-slate-400 mt-1">
                         {stat.label}
                       </p>
                     </div>
@@ -65,6 +70,7 @@ export default function About() {
               </div>
             </motion.div>
 
+            {/* RIGHT */}
             <motion.div
                 initial={{ opacity: 0, scale: 0.96 }}
                 whileInView={{ opacity: 1, scale: 1 }}
@@ -72,33 +78,33 @@ export default function About() {
                 transition={{ duration: 0.8 }}
                 className="grid gap-6"
             >
-              <div className="rounded-3xl border border-white/10 bg-background p-8">
-                <h4 className="text-xl font-bold text-foreground mb-3">
+              <div className="rounded-3xl border border-slate-800 bg-slate-900 p-8">
+                <h4 className="text-xl font-bold text-white mb-3">
                   Nossa Missão
                 </h4>
 
-                <p className="text-muted leading-relaxed">
+                <p className="text-slate-300 leading-relaxed">
                   Promover inclusão social via educação tecnológica e economia circular.
                 </p>
               </div>
 
               <div className="grid sm:grid-cols-2 gap-6">
-                <div className="rounded-3xl border border-white/10 bg-background p-8">
-                  <h4 className="text-xl font-bold text-foreground mb-3">
+                <div className="rounded-3xl border border-slate-800 bg-slate-900 p-8">
+                  <h4 className="text-xl font-bold text-white mb-3">
                     Nossa Visão
                   </h4>
 
-                  <p className="text-muted leading-relaxed">
+                  <p className="text-slate-300 leading-relaxed">
                     Ser referência nacional em inovação social e formação digital.
                   </p>
                 </div>
 
-                <div className="rounded-3xl border border-primary/20 bg-gradient-brand p-8 text-white">
+                <div className="rounded-3xl bg-gradient-to-br from-emerald-500 to-blue-600 p-8 text-white shadow-xl">
                   <h4 className="text-xl font-bold mb-3">
                     Valores
                   </h4>
 
-                  <ul className="space-y-2 text-sm font-medium">
+                  <ul className="space-y-2 text-sm font-semibold">
                     <li>Inclusão</li>
                     <li>Inovação</li>
                     <li>Sustentabilidade</li>

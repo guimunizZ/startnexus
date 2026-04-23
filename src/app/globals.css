@@ -1,29 +1,31 @@
-/* src/app/globals.css */
+/* Tailwind */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
+/* ==================================================
+ROOT
+================================================== */
 :root {
-  --font-inter: Arial, sans-serif;
-  --font-montserrat: Arial, sans-serif;
+  --background: #020617;
+  --surface: #0f172a;
+  --surface-2: #111827;
+  --line: #1e293b;
 
-  --background: #07111f;
-  --foreground: #f8fafc;
-  --surface: #0f1b31;
+  --text: #f8fafc;
   --muted: #94a3b8;
 
-  --primary: #00f5a0;
-  --secondary: #2f6bff;
+  --primary: #10b981;
+  --primary-hover: #059669;
 
-  /* NOVAS */
-  --dark: #0f172a;
-  --gray: #e5e7eb;
+  --secondary: #3b82f6;
 
-  --input-bg: #ffffff;
-  --input-text: #0f172a;
-  --input-placeholder: #94a3b8;
+  --danger: #ef4444;
 }
 
+/* ==================================================
+BASE
+================================================== */
 html,
 body {
   width: 100%;
@@ -33,37 +35,120 @@ body {
 
 body {
   background:
-          radial-gradient(circle at top left, rgba(0,245,160,.06), transparent 30%),
-          radial-gradient(circle at top right, rgba(47,107,255,.06), transparent 30%),
+          radial-gradient(circle at top left, rgba(16,185,129,.04), transparent 30%),
+          radial-gradient(circle at top right, rgba(59,130,246,.04), transparent 30%),
           var(--background);
 
-  color: var(--foreground);
-  font-family: var(--font-inter), Arial, Helvetica, sans-serif;
+  color: var(--text);
+  font-family: Arial, Helvetica, sans-serif;
 }
 
-h1,h2,h3,h4,h5,h6 {
-  font-family: var(--font-montserrat), Arial, Helvetica, sans-serif;
+/* ==================================================
+CORREÇÃO GLOBAL DE TEXTOS
+(remove o div que causou sua quebra)
+================================================== */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+small,
+strong,
+label,
+li,
+ul,
+ol,
+a {
+  color: inherit;
 }
 
+/* títulos fortes sempre claros */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: var(--text);
+  font-weight: 800;
+}
+
+/* ==================================================
+LINKS
+================================================== */
 a {
   text-decoration: none;
   color: inherit;
 }
 
+/* ==================================================
+BOTÕES
+================================================== */
 button {
   cursor: pointer;
+  border: none;
 }
 
+/* botão começar */
+.btn-primary {
+  background: linear-gradient(135deg, var(--primary), var(--secondary));
+  color: white;
+  font-weight: 800;
+  border-radius: 9999px;
+  padding: 12px 26px;
+  transition: .25s;
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+
+/* ==================================================
+INPUTS
+================================================== */
 input,
 textarea,
 select {
-  background: var(--input-bg);
-  color: var(--input-text);
+  outline: none;
+  border: none;
+  font: inherit;
 }
 
 input::placeholder,
 textarea::placeholder {
-  color: var(--input-placeholder);
+  color: var(--muted);
+}
+
+/* ==================================================
+HELPERS
+================================================== */
+.input {
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 18px;
+  background: white;
+  color: #0f172a;
+  border: 1px solid #e2e8f0;
+}
+
+.input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(16,185,129,.14);
+}
+
+/* ==================================================
+TEXTOS ESPECIAIS
+================================================== */
+.text-muted {
+  color: var(--muted);
+}
+
+.text-primary {
+  color: var(--primary);
 }
 
 .text-gradient {
@@ -72,10 +157,76 @@ textarea::placeholder {
   -webkit-text-fill-color: transparent;
 }
 
-.bg-gradient-brand {
-  background: linear-gradient(135deg, var(--primary), var(--secondary));
+/* ==================================================
+CARDS
+================================================== */
+.card-dark {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: 24px;
 }
 
-.shadow-glow-primary {
-  box-shadow: 0 0 24px rgba(0,245,160,.28);
+.card-dark-2 {
+  background: var(--surface-2);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+}
+
+/* ==================================================
+LOADER
+================================================== */
+.loader-screen {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loader {
+  width: 48px;
+  height: 48px;
+  border-radius: 9999px;
+  border: 3px solid #1e293b;
+  border-bottom-color: var(--primary);
+  animation: spin .8s linear infinite;
+}
+
+/* ==================================================
+SCROLLBAR
+================================================== */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #020617;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 999px;
+}
+
+/* ==================================================
+ANIMAÇÕES
+================================================== */
+.animate-fade-in-up {
+  animation: fadeUp .35s ease;
+}
+
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
 }

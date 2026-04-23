@@ -50,7 +50,6 @@ export default function B2CPage() {
                     return;
                 }
 
-                // Buscar assistências
                 const { data: assistData, error } = await supabase
                     .from("assistances")
                     .select("*");
@@ -60,38 +59,33 @@ export default function B2CPage() {
                     return;
                 }
 
-                // Buscar reviews
                 const { data: reviewsData } = await supabase
                     .from("reviews")
                     .select("assistance_id, rating");
 
                 const reviews: Review[] = reviewsData || [];
 
-                const formatted: Assistance[] = assistData.map(
-                    (item: Assistance) => {
-                        const relatedReviews = reviews.filter(
-                            (review: Review) =>
-                                review.assistance_id === item.id
-                        );
+                const formatted: Assistance[] = assistData.map((item: Assistance) => {
+                    const relatedReviews = reviews.filter(
+                        (review) => review.assistance_id === item.id
+                    );
 
-                        const totalReviews = relatedReviews.length;
+                    const totalReviews = relatedReviews.length;
 
-                        const avgRating =
-                            totalReviews > 0
-                                ? relatedReviews.reduce(
-                                (sum: number, review: Review) =>
-                                    sum + review.rating,
-                                0
-                            ) / totalReviews
-                                : 0;
+                    const avgRating =
+                        totalReviews > 0
+                            ? relatedReviews.reduce(
+                            (sum, review) => sum + review.rating,
+                            0
+                        ) / totalReviews
+                            : 0;
 
-                        return {
-                            ...item,
-                            avg_rating: avgRating,
-                            total_reviews: totalReviews,
-                        };
-                    }
-                );
+                    return {
+                        ...item,
+                        avg_rating: avgRating,
+                        total_reviews: totalReviews,
+                    };
+                });
 
                 setAssistances(formatted);
             } catch (error) {
@@ -119,7 +113,6 @@ export default function B2CPage() {
 
     return (
         <div className="min-h-screen bg-slate-950 text-white">
-            {/* NAVBAR */}
             <nav className="border-b border-slate-800 sticky top-0 z-50 bg-slate-950">
                 <div className="max-w-7xl mx-auto px-8 h-24 flex items-center justify-between">
                     <Link href="/">
@@ -140,17 +133,18 @@ export default function B2CPage() {
                             Sair
                         </button>
 
-                        <button className="px-7 py-3 rounded-2xl bg-emerald-500 hover:bg-emerald-600 font-bold text-lg">
+                        <Link
+                            href="/b2c/minha-conta"
+                            className="px-7 py-3 rounded-2xl bg-emerald-500 hover:bg-emerald-600 font-bold text-lg"
+                        >
                             Minha Conta
-                        </button>
+                        </Link>
                     </div>
                 </div>
             </nav>
 
-            {/* MAIN */}
             <main className="max-w-7xl mx-auto px-6 py-14">
                 <div className="grid lg:grid-cols-12 gap-10">
-                    {/* ESQUERDA */}
                     <div className="lg:col-span-8 space-y-10">
                         <header className="space-y-4">
                             <h1 className="text-5xl font-black leading-tight">
@@ -171,7 +165,7 @@ export default function B2CPage() {
                             </h2>
 
                             <div className="grid gap-6">
-                                {assistances.map((item: Assistance) => (
+                                {assistances.map((item) => (
                                     <AssistanceProfile
                                         key={item.id}
                                         id={item.id}
@@ -195,7 +189,6 @@ export default function B2CPage() {
                         </section>
                     </div>
 
-                    {/* DIREITA */}
                     <div className="lg:col-span-4 space-y-8">
                         <CollectionArea />
 
@@ -217,8 +210,7 @@ export default function B2CPage() {
                             </h3>
 
                             <p className="text-slate-300 text-sm">
-                                Faça descarte eletrônico e ganhe pontos
-                                para descontos.
+                                Faça descarte eletrônico e ganhe pontos para descontos.
                             </p>
                         </div>
                     </div>
