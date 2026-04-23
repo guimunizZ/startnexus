@@ -159,21 +159,21 @@ export default function ScheduleManager() {
 
     if (loading) {
         return (
-            <div className="bg-white rounded-[32px] border border-gray shadow-sm p-8 flex items-center justify-center min-h-[320px]">
+            <div className="bg-white rounded-[32px] border border-[rgba(255,255,255,0.08)] shadow-sm p-8 flex items-center justify-center min-h-[320px]">
                 <Loader2 className="animate-spin text-primary" size={28} />
             </div>
         );
     }
 
     return (
-        <div className="bg-white rounded-[32px] border border-gray shadow-sm p-8 space-y-8">
+        <div className="bg-white rounded-[32px] border border-[rgba(255,255,255,0.08)] shadow-sm p-8 space-y-8">
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
                 <div>
-                    <h3 className="text-xl font-black text-dark tracking-tighter">
+                    <h3 className="text-xl font-black text-slate-900 tracking-tighter">
                         Agenda Operacional
                     </h3>
 
-                    <p className="text-sm text-dark/50 font-semibold">
+                    <p className="text-sm text-slate-500 font-semibold">
                         Configure horários e formas de atendimento.
                     </p>
                 </div>
@@ -182,7 +182,7 @@ export default function ScheduleManager() {
                     type="button"
                     onClick={() => void saveSchedule()}
                     disabled={saving}
-                    className="px-6 py-3 bg-dark text-white rounded-2xl font-bold text-sm hover:bg-dark/90 transition disabled:opacity-60 flex items-center gap-2"
+                    className="px-6 py-3 bg-slate-900 text-white rounded-2xl font-bold text-sm hover:bg-slate-800 transition disabled:opacity-60 flex items-center gap-2"
                 >
                     {saving ? (
                         <Loader2 size={16} className="animate-spin" />
@@ -207,7 +207,7 @@ export default function ScheduleManager() {
                                 className={`w-10 h-10 rounded-xl flex items-center justify-center transition ${
                                     item.active
                                         ? "bg-primary/20 text-primary"
-                                        : "bg-gray text-dark/30"
+                                        : "bg-slate-200 text-slate-400"
                                 }`}
                             >
                                 {item.active ? <Check size={18} /> : <X size={18} />}
@@ -215,7 +215,7 @@ export default function ScheduleManager() {
 
                             <span
                                 className={`font-bold ${
-                                    item.active ? "text-dark" : "text-dark/40"
+                                    item.active ? "text-slate-900" : "text-slate-400"
                                 }`}
                             >
                 {item.day}
@@ -228,17 +228,17 @@ export default function ScheduleManager() {
                                 value={item.start}
                                 disabled={!item.active}
                                 onChange={(e) => updateDay(i, "start", e.target.value)}
-                                className="border border-gray rounded-xl px-3 py-2 text-sm font-bold disabled:opacity-50"
+                                className="border border-slate-200 rounded-xl px-3 py-2 text-sm font-bold text-slate-900 disabled:opacity-50"
                             />
 
-                            <span className="text-dark/40 text-sm font-bold">até</span>
+                            <span className="text-slate-500 text-sm font-bold">até</span>
 
                             <input
                                 type="time"
                                 value={item.end}
                                 disabled={!item.active}
                                 onChange={(e) => updateDay(i, "end", e.target.value)}
-                                className="border border-gray rounded-xl px-3 py-2 text-sm font-bold disabled:opacity-50"
+                                className="border border-slate-200 rounded-xl px-3 py-2 text-sm font-bold text-slate-900 disabled:opacity-50"
                             />
                         </div>
                     </div>
@@ -246,7 +246,7 @@ export default function ScheduleManager() {
             </div>
 
             <div>
-                <h4 className="font-black text-dark mb-4">Recursos Disponíveis</h4>
+                <h4 className="font-black text-slate-900 mb-4">Recursos Disponíveis</h4>
 
                 <div className="grid sm:grid-cols-2 gap-4">
                     <ToggleCard
@@ -305,13 +305,13 @@ function ToggleCard({
         <button
             type="button"
             onClick={onClick}
-            className="p-4 rounded-2xl border border-gray flex items-center justify-between hover:border-primary/40 transition bg-white"
+            className="p-4 rounded-2xl border border-slate-200 flex items-center justify-between hover:border-primary/40 transition bg-white"
         >
-            <span className="text-sm font-bold text-dark">{label}</span>
+            <span className="text-sm font-bold text-slate-900">{label}</span>
 
             <div
                 className={`w-11 h-6 rounded-full relative transition ${
-                    active ? "bg-primary" : "bg-gray"
+                    active ? "bg-primary" : "bg-slate-300"
                 }`}
             >
                 <div

@@ -52,14 +52,14 @@ export default function B2BPage() {
 
   if (loading) {
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray/30">
+        <div className="min-h-screen flex items-center justify-center bg-[#03111f]">
           <div className="h-12 w-12 rounded-full border-b-2 border-primary animate-spin" />
         </div>
     );
   }
 
   return (
-      <div className="flex bg-gray/30 min-h-screen">
+      <div className="flex min-h-screen bg-gradient-to-br from-[#03111f] via-[#071a2d] to-[#03111f]">
         <Sidebar />
 
         <main className="flex-1 ml-64 min-h-screen">
@@ -68,11 +68,11 @@ export default function B2BPage() {
           <div className="p-8 space-y-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
               <div>
-                <h1 className="text-3xl font-black text-dark tracking-tighter">
+                <h1 className="text-3xl font-black text-white tracking-tighter">
                   Painel de Controle
                 </h1>
 
-                <p className="text-dark/50 font-bold">
+                <p className="text-slate-300 font-bold">
                   Gerencie sua assistência técnica.
                 </p>
               </div>

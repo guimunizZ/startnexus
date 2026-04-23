@@ -21,7 +21,6 @@ export class AuthService {
 
     const userId = data.user.id;
 
-    // pega role REAL direto da tabela profiles
     const { data: profile, error: profileError } = await supabase
         .from("profiles")
         .select("role")
@@ -35,7 +34,6 @@ export class AuthService {
 
     const realRole = profile.role as UserRole;
 
-    // impede entrar no tipo errado
     if (realRole !== selectedRole) {
       await this.logout();
 
@@ -45,9 +43,7 @@ export class AuthService {
         );
       }
 
-      throw new Error(
-          "Esta conta é de Cliente. Selecione Cliente."
-      );
+      throw new Error("Esta conta é de Cliente. Selecione Cliente.");
     }
 
     return {
@@ -73,9 +69,18 @@ export class AuthService {
     if (error) throw new Error(error.message);
 
     const user = authData.user;
+
     if (!user) throw new Error("Erro ao criar conta.");
 
-    const { error: insertError } = await supabase.from("clients").insert({
+    const { error: profileError } = await supabase.from("profiles").upsert({
+      id: user.id,
+      email: data.email,
+      role: "client",
+    });
+
+    if (profileError) throw new Error(profileError.message);
+
+    const { error: insertError } = await supabase.from("clients").upsert({
       id: user.id,
       first_name: data.firstName,
       last_name: data.lastName,
@@ -106,11 +111,20 @@ export class AuthService {
     if (error) throw new Error(error.message);
 
     const user = authData.user;
+
     if (!user) throw new Error("Erro ao criar conta.");
+
+    const { error: profileError } = await supabase.from("profiles").upsert({
+      id: user.id,
+      email: data.email,
+      role: "assistance",
+    });
+
+    if (profileError) throw new Error(profileError.message);
 
     const { error: insertError } = await supabase
         .from("assistances")
-        .insert({
+        .upsert({
           id: user.id,
           business_name: data.businessName,
           cnpj: data.cnpj,

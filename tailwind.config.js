@@ -11,6 +11,7 @@ module.exports = {
 	theme: {
 		extend: {
 			colors: {
+				/* já existentes (mantidos) */
 				background: "var(--background)",
 				foreground: "var(--foreground)",
 				surface: "var(--surface)",
@@ -18,6 +19,15 @@ module.exports = {
 
 				primary: "var(--primary)",
 				secondary: "var(--secondary)",
+
+				/* NOVOS - para dashboard */
+				dark: "var(--dark)",
+				gray: "var(--gray)",
+
+				/* opcionais úteis */
+				success: "#10b981",
+				warning: "#f59e0b",
+				danger: "#ef4444",
 			},
 		},
 	},
